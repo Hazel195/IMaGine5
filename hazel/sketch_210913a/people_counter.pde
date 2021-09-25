@@ -84,14 +84,14 @@ float st19_down_circle_x, st19_down_circle_y;
 PFont font;
 
 void setup() {
-  size(1000, 701);
+  size(1200, 846);
   leap = new LeapMotion(this);
-  backend_setup();
+  backend_setup(); 
 }
 
 void draw() { 
-  background(0);
-  image(img, 0, 0);
+  background(255);
+  image(bg, 0, 0);
   
   display();
   backend_draw();
@@ -134,46 +134,46 @@ void display() {
 }
 
 void backend_setup() {
-  font = createFont("Times New Roman Bold.ttf", 128);
+  font = createFont("Arial.ttf", 128);
   textFont(font);
   
-  bg = loadImage("bg1.png");
-  img = loadImage("05.png");
+  bg = loadImage("bg.png");
+  //img = loadImage("05.png");
   graph = loadImage("AAPL2010V4_2.tif");
   
   /* name & box pos setup */ 
   
-  cr07_in_x = width * 0.65;
-  cr07_in_y = height * 0.85;
+  cr07_in_x = width * 0.6;
+  cr07_in_y = height * 0.8;
   
-  cr07_out_x = width * 0.65;
-  cr07_out_y = height * 0.92;
+  cr07_out_x = width * 0.6;
+  cr07_out_y = height * 0.85;
   
   
-  cr09_in_x = width * 0.15;
+  cr09_in_x = width * 0.8;
   cr09_in_y = height * 0.8;
   
-  cr09_out_x = width * 0.15;
-  cr09_out_y = height * 0.87;
+  cr09_out_x = width * 0.8;
+  cr09_out_y = height * 0.85;
   
-  st18_up_x = width * 0.45;
-  st18_up_y = height * 0.2;
+  st18_up_x = width * 0.25;
+  st18_up_y = height * 0.8;
   
-  st18_down_x = width * 0.45;
-  st18_down_y = height * 0.27;
+  st18_down_x = width * 0.25;
+  st18_down_y = height * 0.85;
   
-  st19_up_x = width * 0.75;
-  st19_up_y = height * 0.15;
+  st19_up_x = width * 0.43;
+  st19_up_y = height * 0.8;
   
-  st19_down_x = width * 0.75;
-  st19_down_y = height * 0.22;
+  st19_down_x = width * 0.43;
+  st19_down_y = height * 0.85;
   
   rectMode(RADIUS); 
   
   /* circle zone setup */
   
-  st19_up_circle_x = width * 0.63;
-  st19_up_circle_y = height * 0.55;
+  st19_up_circle_x = width * 0.52;
+  st19_up_circle_y = height * 0.47;
   
   
   /* csv setup */
@@ -205,7 +205,7 @@ void backend_setup() {
 
 void backend_draw() {
   // draw the show all button
-  rect(width*0.1 , height*0.1, boxSize, boxSize);
+  rect(width*0.1 , height*0.82, boxSize, boxSize);
   
   // Draw the name & box
   rect(cr07_in_x, cr07_in_y, boxSize, boxSize);
@@ -217,19 +217,19 @@ void backend_draw() {
   rect(st19_up_x, st19_up_y, boxSize, boxSize);
   rect(st19_down_x, st19_down_y, boxSize, boxSize);
   
-  wrteZoneName(" CORRIDOR 07 IN", cr07_in_x + boxSize * 1.5, cr07_in_y + boxSize * 0.8);
-  wrteZoneName(" CORRIDOR 07 OUT", cr07_out_x + boxSize * 1.5, cr07_out_y + boxSize * 0.8);
+  wrteZoneName(" CORRIDOR 07 IN", cr07_in_x + boxSize * 1.5, cr07_in_y + boxSize * 0.6);
+  wrteZoneName(" CORRIDOR 07 OUT", cr07_out_x + boxSize * 1.5, cr07_out_y + boxSize * 0.6);
   
-  wrteZoneName(" CORRIDOR 09 IN", cr09_in_x + boxSize * 1.5, cr09_in_y + boxSize * 0.8);
-  wrteZoneName(" CORRIDOR 09 OUT", cr09_out_x + boxSize * 1.5, cr09_out_y + boxSize * 0.8);
+  wrteZoneName(" CORRIDOR 09 IN", cr09_in_x + boxSize * 1.5, cr09_in_y + boxSize * 0.6);
+  wrteZoneName(" CORRIDOR 09 OUT", cr09_out_x + boxSize * 1.5, cr09_out_y + boxSize * 0.6);
   
-  wrteZoneName(" STAIR 18 UP", st18_up_x + boxSize * 1.5, st18_up_y + boxSize * 0.8);
-  wrteZoneName(" STAIR 18 DOWN", st18_down_x + boxSize * 1.5, st18_down_y + boxSize * 0.8);
+  wrteZoneName(" STAIR 18 UP", st18_up_x + boxSize * 1.5, st18_up_y + boxSize * 0.6);
+  wrteZoneName(" STAIR 18 DOWN", st18_down_x + boxSize * 1.5, st18_down_y + boxSize * 0.6);
 
-  wrteZoneName(" STAIR 19 UP", st19_up_x + boxSize * 1.5, st19_up_y + boxSize * 0.8);
-  wrteZoneName(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.8);
+  wrteZoneName(" STAIR 19 UP", st19_up_x + boxSize * 1.5, st19_up_y + boxSize * 0.6);
+  wrteZoneName(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.6);
 
-  wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.1 + boxSize * 0.8);
+  wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.82 + boxSize * 0.6);
 }
 
 void show_graph() {
@@ -239,9 +239,9 @@ void show_graph() {
 }
 
 void wrteZoneName(String zone, float xpos, float ypos) {
-  fill(255);
+  fill(0);
   textFont(font);
-  textSize(25);
+  textSize(17);
   text(zone, xpos, ypos);
 }
 
@@ -288,7 +288,7 @@ void drawCircle_cr07(int num) {
   for (int i = 0; i < num; i++) {
     fill(colour);
     noStroke();
-    ellipse(random(535, 570),random(420,450), 7, 7);
+    ellipse(random(530, 570),random(430,460), 7, 7);
     }
     popMatrix();
   }
@@ -310,7 +310,7 @@ void drawCircle_cr07(int num) {
   for (int i = 0; i < num; i++) {
     fill(colour);
     noStroke();
-    ellipse(random(520, 550),random(370, 390), 7, 7);
+    ellipse(random(510, 550),random(385, 400), 7, 7);
     }
     popMatrix();
   }
@@ -369,6 +369,7 @@ void display_cr07_in(float xpos, float ypos, int[] data) {
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
     //cr17_overBox = true;  
     index = 0;
+    wrteZoneName("CORRIDOR 17 IN", width*0.835, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index++;
@@ -378,7 +379,8 @@ void display_cr07_in(float xpos, float ypos, int[] data) {
     }
     
     drawCircle_cr07(data[index]);
-    delay(700);
+    wrteZoneName(""+data[index], width*0.85, height * 0.43);
+    delay(300);
     
 
     if(!cr07_overBox) { 
@@ -406,6 +408,7 @@ void display_cr07_out(float xpos, float ypos, int[] data) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
     index = 0;    
+    wrteZoneName("CORRIDOR 07 OUT", width*0.825, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index++;
@@ -415,7 +418,7 @@ void display_cr07_out(float xpos, float ypos, int[] data) {
     }
     
     drawCircle_cr07(data[index]);
-    delay(700);
+    delay(300);
     
 
     if(!cr07_out_overBox) { 
@@ -442,8 +445,9 @@ void display_cr09_in(float xpos, float ypos, int[] data) {
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
-    //cr17_overBox = true;  
+    
     index = 0;
+    wrteZoneName("CORRIDOR 09 IN", width*0.835, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index++;
@@ -453,7 +457,7 @@ void display_cr09_in(float xpos, float ypos, int[] data) {
     }
     
     drawCircle_cr09(data[index]);
-    delay(700);
+    delay(300);
     
 
     if(!cr09_overBox) { 
@@ -480,6 +484,7 @@ void display_cr09_out(float xpos, float ypos, int[] data) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
     index = 0;    
+    wrteZoneName("CORRIDOR 09 OUT", width*0.825, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index++;
@@ -489,7 +494,7 @@ void display_cr09_out(float xpos, float ypos, int[] data) {
     }
     
     drawCircle_cr09(data[index]);
-    delay(700);
+    delay(300);
     
 
     if(!cr09_out_overBox) { 
@@ -517,6 +522,7 @@ void display_st18_up(float xpos, float ypos, int[] data) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
     index = 0;
+    wrteZoneName("STAIR 18 UP", width*0.845, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index++;
@@ -526,7 +532,7 @@ void display_st18_up(float xpos, float ypos, int[] data) {
     }
     
     drawCircle_st18(data[index]);
-    delay(700);
+    delay(300);
     
 
     if(!st18_up_overBox) { 
@@ -553,6 +559,7 @@ void display_st18_down(float xpos, float ypos, int[] data) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
     index = 0;
+    wrteZoneName("STAIR 18 DOWN", width*0.835, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index++;
@@ -562,7 +569,7 @@ void display_st18_down(float xpos, float ypos, int[] data) {
     }
     
     drawCircle_st18(data[index]);
-    delay(700);
+    delay(300);
     
 
     if(!st18_down_overBox) { 
@@ -589,6 +596,7 @@ void display_st19_up(float xpos, float ypos, int[] data) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
     index = 0;
+    wrteZoneName("STAIR 19 UP", width*0.845, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index++;
@@ -625,6 +633,7 @@ void display_st19_down(float xpos, float ypos, int[] data) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
     index = 0;
+    wrteZoneName("STAIR 19 DOWN", width*0.835, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index++;
@@ -671,9 +680,9 @@ void showAll() {
         index++;
       }
   if (mouseX > width*0.1-boxSize && mouseX < width*0.1+boxSize && 
-      mouseY > height*0.1-boxSize && mouseY < height*0.1+boxSize) {
+      mouseY > height*0.82-boxSize && mouseY < height*0.82+boxSize) {
         fill(255, 236, 150);
-        rect(width*0.1, height*0.1, boxSize, boxSize);
+        rect(width*0.1, height*0.82, boxSize, boxSize);
         
          drawCircle_st18(st18_up[index]);
          drawCircle_st18(st18_down[index]);
@@ -683,6 +692,6 @@ void showAll() {
          drawCircle_cr07(cr07_out[index]);
          drawCircle_cr07(cr09_in[index]);
          drawCircle_cr07(cr09_out[index]);
-         delay(700);
+         delay(300);
       }
 }
