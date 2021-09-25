@@ -8,6 +8,11 @@ int cr07_in[], cr07_out[],
     cr09_in[], cr09_out[], 
     st18_up[], st18_down[], 
     st19_up[], st19_down[];
+    
+String cr07_in_time[], cr07_out_time[], 
+    cr09_in_time[], cr09_out_time[], 
+    st18_up_time[], st18_down_time[], 
+    st19_up_time[], st19_down_time[];
 
 int index = 0;
 
@@ -119,8 +124,8 @@ void fingerPosition() {
 void display() {
   showAll();
   
-  display_cr07_in(cr07_in_x, cr07_in_y, cr07_in);
-  display_cr07_out(cr07_out_x, cr07_out_y, cr07_out);
+  display_cr07_in(cr07_in_x, cr07_in_y, cr07_in, cr07_in_time);
+  display_cr07_out(cr07_out_x, cr07_out_y, cr07_out, cr07_out_time);
   
   display_cr09_in(cr09_in_x, cr09_in_y, cr09_in);
   display_cr09_out(cr09_out_x, cr09_out_y, cr09_out);
@@ -139,7 +144,7 @@ void backend_setup() {
   
   bg = loadImage("bg.png");
   //img = loadImage("05.png");
-  graph = loadImage("AAPL2010V4_2.tif");
+  //graph = loadImage("AAPL2010V4_2.tif");
   
   /* name & box pos setup */ 
   
@@ -180,33 +185,42 @@ void backend_setup() {
   
   // CR07_in setup
   cr07_in = setupCsv("CB11.PC05.23_ CB11.05.CR07 In.txt");
+  cr07_in_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR07 In.txt");
   
   // CR07_out setup
   cr07_out = setupCsv("CB11.PC05.23_ CB11.05.CR07 Out.txt");
+  cr07_out_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR07 Out.txt");
   
   // CR09_in setup
   cr09_in = setupCsv("CB11.PC05.23_ CB11.05.CR09 In.txt");
+  cr09_in_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR09 In.txt");
   
   // CR09_out setup
   cr09_out = setupCsv("CB11.PC05.23_ CB11.05.CR09 Out.txt");
+  cr09_out_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR09 Out.txt");
 
   // ST18_up setup
   st18_up = setupCsv("CB11.PC05.22_ CB11.04.ST18 Up.txt");
+  st18_up_time = setupCsvTime("CB11.PC05.22_ CB11.04.ST18 Up.txt");
   
   // ST18_up setup
   st18_down = setupCsv("CB11.PC05.22_ CB11.04.ST18 Down.txt");
+  st18_down_time = setupCsvTime("CB11.PC05.22_ CB11.04.ST18 Down.txt");
   
   // ST19_up setup
   st19_up = setupCsv("CB11.PC05.22_ CB11.06.ST19 Up.txt");
+  st19_up_time = setupCsvTime("CB11.PC05.22_ CB11.06.ST19 Up.txt");
   
   // ST19_down setup
   st19_down = setupCsv("CB11.PC05.22_ CB11.06.ST19 Down.txt");
+  st19_down_time = setupCsvTime("CB11.PC05.22_ CB11.06.ST19 Down.txt");
 }
 
 void backend_draw() {
   // draw the show all button
   rect(width*0.1 , height*0.82, boxSize, boxSize);
   
+  stroke(59, 82, 255);
   // Draw the name & box
   rect(cr07_in_x, cr07_in_y, boxSize, boxSize);
   rect(cr07_out_x, cr07_out_y, boxSize, boxSize);
@@ -259,6 +273,27 @@ int[] setupCsv(String fileName) {
 
     // get the closing price of stock, and month
     result[i] = int(pieces[1]);
+  }
+  println(fileName + " Data Loaded: " + result.length + " entries.");
+  
+  return result;
+  
+}
+
+String[] setupCsvTime(String fileName) {
+  
+  String[] result;
+  String[] lines = loadStrings(fileName);
+
+  // How long is the dataset
+  result = new String[lines.length];
+  
+  for (int i=0; i<lines.length; i++) {
+    // Frst split each line using commas as separator
+    String[] pieces = split(lines[i], ",");
+
+    // get the closing price of stock, and month
+    result[i] = pieces[0];
   }
   println(fileName + " Data Loaded: " + result.length + " entries.");
   
@@ -362,7 +397,7 @@ void drawCircle_st19(int num) {
   
 
 
-void display_cr07_in(float xpos, float ypos, int[] data) {
+void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
@@ -380,6 +415,7 @@ void display_cr07_in(float xpos, float ypos, int[] data) {
     
     drawCircle_cr07(data[index]);
     wrteZoneName(""+data[index], width*0.85, height * 0.43);
+    wrteZoneName(time[index], width*0.85, height*0.5);
     delay(300);
     
 
@@ -402,7 +438,7 @@ void display_cr07_in(float xpos, float ypos, int[] data) {
   }
 }
 
-void display_cr07_out(float xpos, float ypos, int[] data) {
+void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
@@ -418,6 +454,10 @@ void display_cr07_out(float xpos, float ypos, int[] data) {
     }
     
     drawCircle_cr07(data[index]);
+    wrteZoneName(""+data[index], width*0.85, height * 0.43);
+    wrteZoneName(time[index], width*0.85, height*0.5);
+    //graph = loadImage("AAPL2010V4_2.tif");
+    //image(graph, width * 0.8, height*0.55);
     delay(300);
     
 
