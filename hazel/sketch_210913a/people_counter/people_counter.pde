@@ -23,6 +23,7 @@ int index6 = 0;
 int index7 = 0;
 int index8 = 0;
 
+
 PImage img, bg, graph;
 
 int boxSize = 9;
@@ -191,13 +192,12 @@ void backend_setup() {
   /* csv setup */
   
   // CR07_in setup
-  //cr07_in = setupCsv("CB11.PC05.23_ CB11.05.CR07 In.txt");
-  cr07_in = setupCsv("CB11.PC05.22_ CB11.04.ST18 Up.txt");
-  cr07_in_time = setupCsvTime("CB11.PC05.22_ CB11.04.ST18 Up.txt");
+  cr07_in = setupCsv("CB11.PC05.23_ CB11.05.CR07 In.txt");
+  cr07_in_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR07 In.txt");
   
   // CR07_out setup
-  cr07_out = setupCsv("CB11.PC05.22_ CB11.04.ST18 Up.txt");
-  cr07_out_time = setupCsvTime("CB11.PC05.22_ CB11.04.ST18 Up.txt");
+  cr07_out = setupCsv("CB11.PC05.23_ CB11.05.CR07 Out.txt");
+  cr07_out_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR07 Out.txt");
   
   // CR09_in setup
   cr09_in = setupCsv("CB11.PC05.23_ CB11.05.CR09 In.txt");
@@ -419,9 +419,11 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
           index1 = 0;
         }
     
+
     drawCircle_cr07(data[index1]);
     wrteZoneName(""+data[index1], width*0.85, height * 0.43);
     wrteZoneName(time[index1], width*0.85, height*0.5);
+
     delay(300);
     index1++;
 
@@ -460,6 +462,7 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     drawCircle_cr07(data[index2]);
     wrteZoneName(""+data[index2], width*0.85, height * 0.43);
     wrteZoneName(time[index2], width*0.85, height*0.5);
+
     //graph = loadImage("AAPL2010V4_2.tif");
     //image(graph, width * 0.8, height*0.55);
     delay(300);
