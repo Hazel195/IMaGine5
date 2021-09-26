@@ -1,4 +1,5 @@
 import de.voidplus.leapmotion.*;
+import processing.sound.*;
 
 LeapMotion leap;
 
@@ -25,6 +26,7 @@ int index8 = 0;
 
 
 PImage img, bg, graph;
+SoundFile click;
 
 int boxSize = 9;
 
@@ -149,6 +151,7 @@ void display() {
 void backend_setup() {
   font = createFont("Arial.ttf", 128);
   textFont(font);
+  click = new SoundFile(this, "click.mp3");
   
   bg = loadImage("bg.png");
   //img = loadImage("05.png");
@@ -410,39 +413,38 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
-    //cr17_overBox = true;  
-    //index = 0;
-    wrteZoneName("CORRIDOR 07 IN", width*0.835, height*0.32);
-   
-        
+    wrteZoneName("CORRIDOR 07 IN", width*0.82, height*0.32);
+    
+        index1++;
         if (index1 == data.length) {
           index1 = 0;
         }
     
-
+    noFill();
+    stroke(255);
+    strokeWeight(2);
+    ellipse(545, 440, 70, 70);
+    
     drawCircle_cr07(data[index1]);
     wrteZoneName("Date/Time: \n"+time[index1], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index1], width*0.82, height * 0.5);
 
+    //graph = loadImage("AAPL2010V4_2.tif");
+    //image(graph, width * 0.8, height*0.55);
     delay(300);
-    index1++;
+    
 
     if(!cr07_overBox) { 
       stroke(255); 
-      fill(255, 236, 150);
+      fill(252, 186, 3);
       rect(cr07_in_x, cr07_in_y, boxSize, boxSize);
-  
-      stroke(252, 186, 3);
-      strokeWeight(4);
-      noFill();
-      rect(st19_up_x, st19_up_y, boxSize, boxSize);
-  
     }
   } else {
     stroke(252, 186, 3);
     strokeWeight(4);
     noFill();
-    //index1 = 0;
+    //overBox = false;
+    //index2 = 0;
   }
 }
 
@@ -458,6 +460,11 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
         if (index2 == data.length) {
           index2 = 0;
         }
+        
+    noFill();
+    stroke(255);
+    strokeWeight(2);
+    ellipse(545, 440, 70, 70);
     
     drawCircle_cr07(data[index2]);
     wrteZoneName("Date/Time: \n"+time[index2], width*0.82, height*0.43);
@@ -470,13 +477,8 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
 
     if(!cr07_out_overBox) { 
       stroke(255); 
-      fill(255, 236, 150);
+      fill(252, 186, 3);
       rect(cr07_out_x, cr07_out_y, boxSize, boxSize);
-  
-      stroke(252, 186, 3);
-      strokeWeight(4);
-      noFill();
-      
     }
   } else {
     stroke(252, 186, 3);
@@ -503,6 +505,11 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+    noFill();
+    stroke(255);
+    strokeWeight(2);
+    ellipse(530, 385, 70, 70);
+    
     drawCircle_cr09(data[index3]);
     wrteZoneName("Date/Time: \n"+time[index3], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index3], width*0.82, height * 0.5);
@@ -511,13 +518,8 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
 
     if(!cr09_overBox) { 
       stroke(255); 
-      fill(255, 236, 150);
+      fill(252, 186, 3);
       rect(cr09_in_x, cr09_in_y, boxSize, boxSize);
-  
-      stroke(252, 186, 3);
-      strokeWeight(4);
-      noFill();
-  
     }
   } else {
     stroke(252, 186, 3);
@@ -542,6 +544,11 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+    noFill();
+    stroke(255);
+    strokeWeight(2);
+    ellipse(530, 385, 70, 70);
+    
     drawCircle_cr09(data[index4]);
     wrteZoneName("Date/Time: \n"+time[index4], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index4], width*0.82, height * 0.5);
@@ -550,13 +557,8 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
 
     if(!cr09_out_overBox) { 
       stroke(255); 
-      fill(255, 236, 150);
+      fill(252, 186, 3);
       rect(cr09_out_x, cr09_out_y, boxSize, boxSize);
-  
-      stroke(252, 186, 3);
-      strokeWeight(4);
-      noFill();
-      
     }
   } else {
     stroke(252, 186, 3);
@@ -582,6 +584,11 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+    noFill();
+    stroke(255);
+    strokeWeight(2);
+    ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
+    
     drawCircle_st18(data[index5]);
     wrteZoneName("Date/Time: \n"+time[index5], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index5], width*0.82, height * 0.5);
@@ -590,13 +597,8 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
 
     if(!st18_up_overBox) { 
       stroke(255); 
-      fill(255, 236, 150);
+      fill(252, 186, 3);
       rect(st18_up_x, st18_up_y, boxSize, boxSize);
-  
-      stroke(252, 186, 3);
-      strokeWeight(4);
-      noFill();
-      
     }
   } else {
     stroke(252, 186, 3);
@@ -621,6 +623,11 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+    noFill();
+    stroke(255);
+    strokeWeight(2);
+    ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
+    
     drawCircle_st18(data[index6]);
     wrteZoneName("Date/Time: \n"+time[index6], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index6], width*0.82, height * 0.5);
@@ -629,13 +636,8 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
 
     if(!st18_down_overBox) { 
       stroke(255); 
-      fill(255, 236, 150);
+      fill(252, 186, 3);
       rect(st18_down_x, st18_down_y, boxSize, boxSize);
-  
-      stroke(252, 186, 3);
-      strokeWeight(4);
-      noFill();
-      
     }
   } else {
     stroke(252, 186, 3);
@@ -660,6 +662,11 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+    noFill();
+    stroke(255);
+    strokeWeight(2);
+    ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
+    
     drawCircle_st19(data[index7]);
     wrteZoneName("Date/Time: \n"+time[index7], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index7], width*0.82, height * 0.5);
@@ -668,13 +675,8 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
 
     if(!st19_up_overBox) { 
       stroke(255); 
-      fill(255, 236, 150);
+      fill(252, 186, 3);
       rect(st19_up_x, st19_up_y, boxSize, boxSize);
-  
-      stroke(252, 186, 3);
-      strokeWeight(4);
-      noFill();
-      
     }
   } else {
     stroke(252, 186, 3);
@@ -692,6 +694,11 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
     //index = 0;
     wrteZoneName("STAIR 19 DOWN", width*0.835, height*0.32);
     
+    noFill();
+    stroke(255);
+    strokeWeight(2);
+    ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
+    
     if(frameCount % int(3) == 0) {
         index8++;
         if (index8 == data.length) {
@@ -707,15 +714,12 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
 
     if(!st19_down_overBox) { 
       stroke(255); 
-      fill(255, 236, 150);
+      fill(252, 186, 3);
       rect(st19_down_x, st19_down_y, boxSize, boxSize);
   
       stroke(252, 186, 3);
       strokeWeight(4);
-      noFill();
-      
-     
-      
+      noFill(); 
     }
   } else {
     stroke(252, 186, 3);
