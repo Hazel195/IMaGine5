@@ -416,10 +416,9 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     wrteZoneName("CORRIDOR 07 IN", width*0.82, height*0.32);
     
         index1++;
-        if (index1 == data.length) {
-          index1 = 0;
-        }
+
     
+
     noFill();
     stroke(255);
     strokeWeight(2);
@@ -431,8 +430,9 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
 
     //graph = loadImage("AAPL2010V4_2.tif");
     //image(graph, width * 0.8, height*0.55);
+
     delay(300);
-    
+    index1++;
 
     if(!cr07_overBox) { 
       stroke(255); 
@@ -443,8 +443,10 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     stroke(252, 186, 3);
     strokeWeight(4);
     noFill();
+
     //overBox = false;
-    //index2 = 0;
+    //index1 = 0;
+
   }
 }
 
@@ -460,6 +462,7 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
         if (index2 == data.length) {
           index2 = 0;
         }
+
         
     noFill();
     stroke(255);
@@ -469,6 +472,7 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     drawCircle_cr07(data[index2]);
     wrteZoneName("Date/Time: \n"+time[index2], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index2], width*0.82, height * 0.5);
+
 
     //graph = loadImage("AAPL2010V4_2.tif");
     //image(graph, width * 0.8, height*0.55);
@@ -505,6 +509,7 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+
     noFill();
     stroke(255);
     strokeWeight(2);
@@ -513,6 +518,7 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     drawCircle_cr09(data[index3]);
     wrteZoneName("Date/Time: \n"+time[index3], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index3], width*0.82, height * 0.5);
+
     delay(300);
     
 
@@ -544,6 +550,7 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+
     noFill();
     stroke(255);
     strokeWeight(2);
@@ -552,6 +559,7 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     drawCircle_cr09(data[index4]);
     wrteZoneName("Date/Time: \n"+time[index4], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index4], width*0.82, height * 0.5);
+
     delay(300);
     
 
@@ -584,6 +592,7 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+
     noFill();
     stroke(255);
     strokeWeight(2);
@@ -592,6 +601,7 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     drawCircle_st18(data[index5]);
     wrteZoneName("Date/Time: \n"+time[index5], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index5], width*0.82, height * 0.5);
+
     delay(300);
     
 
@@ -623,6 +633,7 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
         }
     }
     
+
     noFill();
     stroke(255);
     strokeWeight(2);
@@ -631,6 +642,7 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     drawCircle_st18(data[index6]);
     wrteZoneName("Date/Time: \n"+time[index6], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index6], width*0.82, height * 0.5);
+
     delay(300);
     
 
@@ -661,7 +673,7 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
           index7 = 0;
         }
     }
-    
+
     noFill();
     stroke(255);
     strokeWeight(2);
@@ -670,6 +682,7 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     drawCircle_st19(data[index7]);
     wrteZoneName("Date/Time: \n"+time[index7], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index7], width*0.82, height * 0.5);
+
     delay(300);
     
 
@@ -707,8 +720,10 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
     }
     
     drawCircle_st19(data[index8]);
+
     wrteZoneName("Date/Time: \n"+time[index8], width*0.82, height*0.43);
     wrteZoneName("Number of People: "+data[index8], width*0.82, height * 0.5);
+
     delay(300);
     
 
