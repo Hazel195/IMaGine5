@@ -35,7 +35,9 @@ boolean st19_down_click = false;
 
 
 PImage img, bg, graph;
+
 SoundFile click;
+SoundFile bgm;
 
 int boxSize = 9;
 
@@ -111,6 +113,7 @@ void setup() {
   size(1200, 846);
   leap = new LeapMotion(this);
   backend_setup(); 
+  bgm.play();
 }
 
 void draw() { 
@@ -161,6 +164,7 @@ void backend_setup() {
   font = createFont("Arial.ttf", 128);
   textFont(font);
   click = new SoundFile(this, "click.mp3");
+  bgm = new SoundFile(this, "bgm.mp3");
   
   bg = loadImage("bg.png");
   //img = loadImage("05.png");
