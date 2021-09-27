@@ -24,6 +24,15 @@ int index6 = 0;
 int index7 = 0;
 int index8 = 0;
 
+boolean cr07_in_click = false;
+boolean cr07_out_click = false;
+boolean cr09_in_click = false;
+boolean cr09_out_click = false;
+boolean st18_up_click = false;
+boolean st18_down_click = false;
+boolean st19_up_click = false;
+boolean st19_down_click = false;
+
 
 PImage img, bg, graph;
 SoundFile click;
@@ -412,7 +421,7 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
-      mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
+      mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr07_in_click)) {
     wrteZoneName("CORRIDOR 07 IN", width*0.82, height*0.32);
     
         index1++;
@@ -454,7 +463,7 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
-      mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
+      mouseY > ypos-boxSize && mouseY < ypos+boxSize)|| (cr07_out_click)) {
     //index = 0;    
     wrteZoneName("CORRIDOR 07 OUT", width*0.825, height*0.32);
     
@@ -497,7 +506,7 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
-      mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
+      mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr09_in_click)) {
     
     //index = 0;
     wrteZoneName("CORRIDOR 09 IN", width*0.835, height*0.32);
@@ -539,7 +548,7 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
-      mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
+      mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr09_out_click)) {
     //index = 0;    
     wrteZoneName("CORRIDOR 09 OUT", width*0.825, height*0.32);
     
@@ -581,7 +590,7 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
-      mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
+      mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st18_up_click)) {
     //index = 0;
     wrteZoneName("STAIR 18 UP", width*0.845, height*0.32);
     
@@ -622,7 +631,7 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
-      mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
+      mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st18_down_click)) {
     //index = 0;
     wrteZoneName("STAIR 18 DOWN", width*0.835, height*0.32);
     
@@ -663,8 +672,9 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
-      mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
+      mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st19_up_click)) {
     //index = 0;
+   
     wrteZoneName("STAIR 19 UP", width*0.845, height*0.32);
     
     if(frameCount % int(3) == 0) {
@@ -703,7 +713,7 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
-      mouseY > ypos-boxSize && mouseY < ypos+boxSize)) {
+      mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st19_down_click)) {
     //index = 0;
     wrteZoneName("STAIR 19 DOWN", width*0.835, height*0.32);
     
@@ -745,12 +755,84 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
 }
 
 void mouseClicked() {
+  click.play();
   //cr07_in_x, cr07_in_y
   if (mouseX > cr07_in_x-boxSize && mouseX < cr07_in_x+boxSize && 
       mouseY > cr07_in_y-boxSize && mouseY < cr07_in_y+boxSize) {
-      clicked++;
+      if (!cr07_in_click) {
+        cr07_in_click = true;
+        
+      } else {
+        cr07_in_click = false;
+      }
+      
+  } else if (mouseX > cr07_out_x-boxSize && mouseX < cr07_out_x+boxSize && 
+      mouseY > cr07_out_y-boxSize && mouseY < cr07_out_y+boxSize) {
+      if (!cr07_out_click) {
+        cr07_out_click = true;
+        
+      } else {
+        cr07_out_click = false;
+      }
+      
+  } else if (mouseX > cr09_in_x-boxSize && mouseX < cr09_in_x+boxSize && 
+      mouseY > cr09_in_y-boxSize && mouseY < cr09_in_y+boxSize) {
+      if (!cr09_in_click) {
+        cr09_in_click = true;
+        
+      } else {
+        cr09_in_click = false;
+      }
+      
+  } else if (mouseX > cr09_out_x-boxSize && mouseX < cr09_out_x+boxSize && 
+      mouseY > cr09_out_y-boxSize && mouseY < cr09_out_y+boxSize) {
+      if (!cr09_out_click) {
+        cr09_out_click = true;
+        
+      } else {
+        cr09_out_click = false;
+      }
+      
+  } else if (mouseX > st18_up_x-boxSize && mouseX < st18_up_x+boxSize && 
+      mouseY > st18_up_y-boxSize && mouseY < st18_up_y+boxSize) {
+      if (!st18_up_click) {
+        st18_up_click = true;
+        
+      } else {
+        st18_up_click = false;
+      }
+      
+  } else if (mouseX > st18_down_x-boxSize && mouseX < st18_down_x+boxSize && 
+      mouseY > st18_down_y-boxSize && mouseY < st18_down_y+boxSize) {
+      if (!st18_down_click) {
+        st18_down_click = true;
+        
+      } else {
+        st18_down_click = false;
+      }
+      
+  } else if (mouseX > st19_up_x-boxSize && mouseX < st19_up_x+boxSize && 
+      mouseY > st19_up_y-boxSize && mouseY < st19_up_y+boxSize) {
+      if (!st19_up_click) {
+        st19_up_click = true;
+        
+      } else {
+        st19_up_click = false;
+      }
+      
+  } else if (mouseX > st19_down_x-boxSize && mouseX < st19_down_x+boxSize && 
+      mouseY > st19_down_y-boxSize && mouseY < st19_down_y+boxSize) {
+      if (!st19_down_click) {
+        st19_down_click = true;
+        
+      } else {
+        st19_down_click = false;
+      }
   } 
+  
 }
+
+
 
 void showAll() {
  index1 = 0;
