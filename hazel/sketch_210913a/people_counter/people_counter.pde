@@ -5,7 +5,7 @@ LeapMotion leap;
 
 PVector fingerPos = new PVector(0,0);;
 
-int cr07_in[], cr07_out[], 
+int cr07_in[], cr07_out[],
     cr09_in[], cr09_out[], 
     st18_up[], st18_down[], 
     st19_up[], st19_down[];
@@ -15,14 +15,7 @@ String cr07_in_time[], cr07_out_time[],
     st18_up_time[], st18_down_time[], 
     st19_up_time[], st19_down_time[];
 
-int index1 = 0;
-int index2 = 0;
-int index3 = 0;
-int index4 = 0;
-int index5 = 0;
-int index6 = 0;
-int index7 = 0;
-int index8 = 0;
+int index[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 boolean cr07_in_click = false;
 boolean cr07_out_click = false;
@@ -36,8 +29,7 @@ boolean st19_down_click = false;
 
 PImage img, bg, graph;
 
-SoundFile click;
-SoundFile bgm;
+SoundFile click, bgm, noise;
 
 int boxSize = 9;
 
@@ -114,6 +106,7 @@ void setup() {
   leap = new LeapMotion(this);
   backend_setup(); 
   bgm.play();
+  bgm.loop(); //add feature: play/stop button
 }
 
 void draw() { 
@@ -124,6 +117,14 @@ void draw() {
   backend_draw();
   show_graph();
   fingerPosition();
+  //play_noise();
+}
+
+void play_noise() {
+  if (cr07_in_click || cr07_out_click || cr09_in_click || cr09_out_click 
+      || st18_up_click || st18_down_click || st19_up_click || st19_down_click) {
+    noise.play();
+  }
 }
 
 void fingerPosition() {
@@ -165,6 +166,7 @@ void backend_setup() {
   textFont(font);
   click = new SoundFile(this, "click.mp3");
   bgm = new SoundFile(this, "bgm.mp3");
+  noise = new SoundFile(this, "noise.mp3");
   
   bg = loadImage("bg.png");
   //img = loadImage("05.png");
@@ -211,10 +213,14 @@ void backend_setup() {
   cr07_in = setupCsv("CB11.PC05.23_ CB11.05.CR07 In.txt");
   cr07_in_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR07 In.txt");
   
+  for (int i = 0; i < 8; i++) {
+    println(cr07_in_time[i] +" "+ cr07_in[i] + "\n");
+  }
+    
   // CR07_out setup
   cr07_out = setupCsv("CB11.PC05.23_ CB11.05.CR07 Out.txt");
   cr07_out_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR07 Out.txt");
-  
+ 
   // CR09_in setup
   cr09_in = setupCsv("CB11.PC05.23_ CB11.05.CR09 In.txt");
   cr09_in_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR09 In.txt");
@@ -242,9 +248,10 @@ void backend_setup() {
 
 void backend_draw() {
   // draw the show all button
+  stroke(59, 82, 255);
   rect(width*0.1 , height*0.82, boxSize, boxSize);
   
-  stroke(59, 82, 255);
+  stroke(252, 186, 3); //59, 82, 255); <- blue
   // Draw the name & box
   rect(cr07_in_x, cr07_in_y, boxSize, boxSize);
   rect(cr07_out_x, cr07_out_y, boxSize, boxSize);
@@ -428,8 +435,12 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr07_in_click)) {
     wrteZoneName("CORRIDOR 07 IN", width*0.82, height*0.32);
     
-        index1++;
-
+        if(frameCount % int(3) == 0) {
+        index[1]++;
+            if (index[1] == data.length) {
+              index[1] = 0;
+            }
+        }
     
 
     noFill();
@@ -437,19 +448,19 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     strokeWeight(2);
     ellipse(545, 440, 70, 70);
     
-    drawCircle_cr07(data[index1]);
-    wrteZoneName("Date/Time: \n"+time[index1], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index1], width*0.82, height * 0.5);
+    drawCircle_cr07(data[index[1]]);
+    wrteZoneName("Date/Time: \n"+time[index[1]], width*0.82, height*0.43);
+    wrteZoneName("Number of People: "+data[index[1]], width*0.82, height * 0.5);
 
     //graph = loadImage("AAPL2010V4_2.tif");
     //image(graph, width * 0.8, height*0.55);
 
     delay(300);
-    index1++;
+    index[1]++;
 
     if(!cr07_overBox) { 
-      stroke(255); 
-      fill(252, 186, 3);
+      stroke(59, 82, 255);
+      fill(255, 236, 150);
       rect(cr07_in_x, cr07_in_y, boxSize, boxSize);
     }
   } else {
@@ -463,6 +474,8 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
   }
 }
 
+
+
 void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -471,10 +484,12 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     //index = 0;    
     wrteZoneName("CORRIDOR 07 OUT", width*0.825, height*0.32);
     
-        index2++;
-        if (index2 == data.length) {
-          index2 = 0;
+        if(frameCount % int(3) == 0) {
+        index[2]++;
+        if (index[2] == data.length) {
+          index[2] = 0;
         }
+    }
 
         
     noFill();
@@ -482,9 +497,9 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     strokeWeight(2);
     ellipse(545, 440, 70, 70);
     
-    drawCircle_cr07(data[index2]);
-    wrteZoneName("Date/Time: \n"+time[index2], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index2], width*0.82, height * 0.5);
+    drawCircle_cr07(data[index[2]]);
+    wrteZoneName("Date/Time: \n"+time[index[2]], width*0.82, height*0.43);
+    wrteZoneName("Number of People: "+data[index[2]], width*0.82, height * 0.5);
 
 
     //graph = loadImage("AAPL2010V4_2.tif");
@@ -494,7 +509,7 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
 
     if(!cr07_out_overBox) { 
       stroke(255); 
-      fill(252, 186, 3);
+      fill(255, 236, 150);
       rect(cr07_out_x, cr07_out_y, boxSize, boxSize);
     }
   } else {
@@ -516,9 +531,9 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     wrteZoneName("CORRIDOR 09 IN", width*0.835, height*0.32);
     
     if(frameCount % int(3) == 0) {
-        index3++;
-        if (index3 == data.length) {
-          index3 = 0;
+        index[3]++;
+        if (index[3] == data.length) {
+          index[3] = 0;
         }
     }
     
@@ -528,16 +543,16 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     strokeWeight(2);
     ellipse(530, 385, 70, 70);
     
-    drawCircle_cr09(data[index3]);
-    wrteZoneName("Date/Time: \n"+time[index3], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index3], width*0.82, height * 0.5);
+    drawCircle_cr09(data[index[3]]);
+    wrteZoneName("Date/Time: \n"+time[index[3]], width*0.82, height*0.43);
+    wrteZoneName("Number of People: "+data[index[3]], width*0.82, height * 0.5);
 
     delay(300);
     
 
     if(!cr09_overBox) { 
       stroke(255); 
-      fill(252, 186, 3);
+      fill(255, 236, 150);
       rect(cr09_in_x, cr09_in_y, boxSize, boxSize);
     }
   } else {
@@ -557,9 +572,9 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     wrteZoneName("CORRIDOR 09 OUT", width*0.825, height*0.32);
     
     if(frameCount % int(3) == 0) {
-        index4++;
-        if (index4 == data.length) {
-          index4 = 0;
+        index[4]++;
+        if (index[4] == data.length) {
+          index[4] = 0;
         }
     }
     
@@ -569,16 +584,16 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     strokeWeight(2);
     ellipse(530, 385, 70, 70);
     
-    drawCircle_cr09(data[index4]);
-    wrteZoneName("Date/Time: \n"+time[index4], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index4], width*0.82, height * 0.5);
+    drawCircle_cr09(data[index[4]]);
+    wrteZoneName("Date/Time: \n"+time[index[4]], width*0.82, height*0.43);
+    wrteZoneName("Number of People: "+data[index[4]], width*0.82, height * 0.5);
 
     delay(300);
     
 
     if(!cr09_out_overBox) { 
       stroke(255); 
-      fill(252, 186, 3);
+      fill(255, 236, 150);
       rect(cr09_out_x, cr09_out_y, boxSize, boxSize);
     }
   } else {
@@ -599,9 +614,9 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     wrteZoneName("STAIR 18 UP", width*0.845, height*0.32);
     
     if(frameCount % int(3) == 0) {
-        index5++;
-        if (index5 == data.length) {
-          index5 = 0;
+        index[5]++;
+        if (index[5] == data.length) {
+          index[5] = 0;
         }
     }
     
@@ -611,23 +626,23 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     strokeWeight(2);
     ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
     
-    drawCircle_st18(data[index5]);
-    wrteZoneName("Date/Time: \n"+time[index5], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index5], width*0.82, height * 0.5);
+    drawCircle_st18(data[index[5]]);
+    wrteZoneName("Date/Time: \n"+time[index[5]], width*0.82, height*0.43);
+    wrteZoneName("Number of People: "+data[index[5]], width*0.82, height * 0.5);
 
     delay(300);
     
 
     if(!st18_up_overBox) { 
       stroke(255); 
-      fill(252, 186, 3);
+      fill(255, 236, 150);
       rect(st18_up_x, st18_up_y, boxSize, boxSize);
     }
   } else {
     stroke(252, 186, 3);
     strokeWeight(4);
     noFill();
-    index5 = 0;
+    index[5] = 0;
   }
 }
 
@@ -640,9 +655,9 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     wrteZoneName("STAIR 18 DOWN", width*0.835, height*0.32);
     
     if(frameCount % int(3) == 0) {
-        index6++;
-        if (index6 == data.length) {
-          index6 = 0;
+        index[6]++;
+        if (index[6] == data.length) {
+          index[6] = 0;
         }
     }
     
@@ -652,16 +667,16 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     strokeWeight(2);
     ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
     
-    drawCircle_st18(data[index6]);
-    wrteZoneName("Date/Time: \n"+time[index6], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index6], width*0.82, height * 0.5);
+    drawCircle_st18(data[index[6]]);
+    wrteZoneName("Date/Time: \n"+time[index[6]], width*0.82, height*0.43);
+    wrteZoneName("Number of People: "+data[index[6]], width*0.82, height * 0.5);
 
     delay(300);
     
 
     if(!st18_down_overBox) { 
       stroke(255); 
-      fill(252, 186, 3);
+      fill(255, 236, 150);
       rect(st18_down_x, st18_down_y, boxSize, boxSize);
     }
   } else {
@@ -682,9 +697,9 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     wrteZoneName("STAIR 19 UP", width*0.845, height*0.32);
     
     if(frameCount % int(3) == 0) {
-        index7++;
-        if (index7 == data.length) {
-          index7 = 0;
+        index[7]++;
+        if (index[7] == data.length) {
+          index[7] = 0;
         }
     }
 
@@ -693,16 +708,16 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     strokeWeight(2);
     ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
     
-    drawCircle_st19(data[index7]);
-    wrteZoneName("Date/Time: \n"+time[index7], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index7], width*0.82, height * 0.5);
+    drawCircle_st19(data[index[7]]);
+    wrteZoneName("Date/Time: \n"+time[index[7]], width*0.82, height*0.43);
+    wrteZoneName("Number of People: "+data[index[7]], width*0.82, height * 0.5);
 
     delay(300);
     
 
     if(!st19_up_overBox) { 
       stroke(255); 
-      fill(252, 186, 3);
+      fill(255, 236, 150);
       rect(st19_up_x, st19_up_y, boxSize, boxSize);
     }
   } else {
@@ -727,23 +742,23 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
     ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
     
     if(frameCount % int(3) == 0) {
-        index8++;
-        if (index8 == data.length) {
-          index8 = 0;
+        index[8]++;
+        if (index[8] == data.length) {
+          index[8] = 0;
         }
     }
     
-    drawCircle_st19(data[index8]);
+    drawCircle_st19(data[index[8]]);
 
-    wrteZoneName("Date/Time: \n"+time[index8], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index8], width*0.82, height * 0.5);
+    wrteZoneName("Date/Time: \n"+time[index[8]], width*0.82, height*0.43);
+    wrteZoneName("Number of People: "+data[index[8]], width*0.82, height * 0.5);
 
     delay(300);
     
 
     if(!st19_down_overBox) { 
       stroke(255); 
-      fill(252, 186, 3);
+      fill(255, 236, 150);
       rect(st19_down_x, st19_down_y, boxSize, boxSize);
   
       stroke(252, 186, 3);
@@ -839,23 +854,31 @@ void mouseClicked() {
 
 
 void showAll() {
- index1 = 0;
- if(frameCount % int(3) == 0) {
-        index1++;
-      }
+  if (index[0] > 100) {
+             index[0] = 0;
+           }
   if (mouseX > width*0.1-boxSize && mouseX < width*0.1+boxSize && 
       mouseY > height*0.82-boxSize && mouseY < height*0.82+boxSize) {
-        fill(255, 236, 150);
+        fill(255, 236, 150); //<- yellow
+      
         rect(width*0.1, height*0.82, boxSize, boxSize);
         
-         drawCircle_st18(st18_up[index1]);
-         drawCircle_st18(st18_down[index1]);
-         drawCircle_st19(st19_up[index1]);
-         drawCircle_st19(st19_down[index1]);
-         drawCircle_cr07(cr07_in[index1]);
-         drawCircle_cr07(cr07_out[index1]);
-         drawCircle_cr09(cr09_in[index1]);
-         drawCircle_cr09(cr09_out[index1]);
+         drawCircle_st18(st18_up[index[0]]);
+         drawCircle_st18(st18_down[index[0]]);
+         drawCircle_st19(st19_up[index[0]]);
+         drawCircle_st19(st19_down[index[0]]);
+         drawCircle_cr07(cr07_in[index[0]]);
+         drawCircle_cr07(cr07_out[index[0]]);
+         drawCircle_cr09(cr09_in[index[0]]);
+         drawCircle_cr09(cr09_out[index[0]]);
+
+         noFill();
+          stroke(255);
+          strokeWeight(2);
+          ellipse(545, 440, 70, 70);
+          ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
+          ellipse(530, 385, 70, 70);
          delay(300);
       }
+      index[0]++;
 }
