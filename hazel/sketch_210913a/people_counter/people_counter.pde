@@ -1,7 +1,7 @@
 import de.voidplus.leapmotion.*;
 import processing.sound.*;
 
-LeapMotion leap;
+LeapMotion leap; 
 
 PVector fingerPos = new PVector(0,0);;
 
@@ -107,6 +107,8 @@ void setup() {
   backend_setup(); 
   bgm.play();
   bgm.loop(); //add feature: play/stop button
+  bgm.amp(0.2);
+  click.amp(2);
 }
 
 void draw() { 
