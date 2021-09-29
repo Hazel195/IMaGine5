@@ -880,7 +880,7 @@ void showAll() {
          drawCircle_cr09(cr09_out[index[0]]);
 
           int sum = 0;
-          
+          //
           sum = (st18_up[index[0]] + st18_down[index[0]] + st19_up[index[0]] + st19_down[index[0]] 
                 + cr07_in[index[0]] + cr07_out[index[0]] + cr09_in[index[0]] + cr09_out[index[0]]) / 8;
           
