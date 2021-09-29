@@ -1,6 +1,11 @@
 import de.voidplus.leapmotion.*;
 import processing.sound.*;
 
+import controlP5.*;
+ControlP5 cp5;
+DropdownList d1;
+int cnt = 0;
+
 LeapMotion leap; 
 
 PVector fingerPos = new PVector(0,0);;
@@ -112,6 +117,14 @@ void setup() {
   crowd.play();
   crowd.amp(0.1);
   crowd.loop();
+  
+  cp5 = new ControlP5(this);
+  
+  /*d1 = cp5.addDropdownList("myList-d1")
+          .setPosition(width * 0.67, height * 0.06)
+          ;
+          
+  customize(d1);*/
 }
 
 void draw() { 
@@ -895,6 +908,36 @@ void showAll() {
          delay(300);
       }
       index[0]++;
-      
- 
+}
+
+
+
+void customize(DropdownList ddl) {
+  // a convenience function to customize a DropdownList
+  ddl.setBackgroundColor(color(190));
+  ddl.setItemHeight(20);
+  ddl.setBarHeight(15);
+  ddl.getCaptionLabel().set("dropdown");
+  for (int i=0;i<40;i++) {
+    ddl.addItem("item "+i, i);
+  }
+  //ddl.scroll(0);
+  ddl.setColorBackground(color(60));
+  ddl.setColorActive(color(255, 128));
+}
+
+void controlEvent(ControlEvent theEvent) {
+  // DropdownList is of type ControlGroup.
+  // A controlEvent will be triggered from inside the ControlGroup class.
+  // therefore you need to check the originator of the Event with
+  // if (theEvent.isGroup())
+  // to avoid an error message thrown by controlP5.
+
+  if (theEvent.isGroup()) {
+    // check if the Event was triggered from a ControlGroup
+    println("event from group : "+theEvent.getGroup().getValue()+" from "+theEvent.getGroup());
+  } 
+  else if (theEvent.isController()) {
+    println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+  }
 }
