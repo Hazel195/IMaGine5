@@ -1,7 +1,7 @@
 import de.voidplus.leapmotion.*;
 import processing.sound.*;
 
-LeapMotion leap;
+LeapMotion leap; 
 
 PVector fingerPos = new PVector(0,0);;
 
@@ -29,7 +29,7 @@ boolean st19_down_click = false;
 
 PImage img, bg, graph;
 
-SoundFile click, bgm, noise;
+SoundFile click, bgm, crowd;
 
 int boxSize = 9;
 
@@ -107,6 +107,11 @@ void setup() {
   backend_setup(); 
   bgm.play();
   bgm.loop(); //add feature: play/stop button
+  bgm.amp(0.01);
+  click.amp(2);
+  crowd.play();
+  crowd.amp(0.1);
+  crowd.loop();
 }
 
 void draw() { 
@@ -117,15 +122,9 @@ void draw() {
   backend_draw();
   show_graph();
   fingerPosition();
-  //play_noise();
 }
 
-void play_noise() {
-  if (cr07_in_click || cr07_out_click || cr09_in_click || cr09_out_click 
-      || st18_up_click || st18_down_click || st19_up_click || st19_down_click) {
-    noise.play();
-  }
-}
+
 
 void fingerPosition() {
   for (Hand hand : leap.getHands()) {
@@ -166,7 +165,7 @@ void backend_setup() {
   textFont(font);
   click = new SoundFile(this, "click.mp3");
   bgm = new SoundFile(this, "bgm.mp3");
-  noise = new SoundFile(this, "noise.mp3");
+  crowd = new SoundFile(this, "noise.mp3");
   
   bg = loadImage("bg.png");
   //img = loadImage("05.png");
@@ -356,8 +355,10 @@ void drawCircle_cr07(int num) {
     noStroke();
     ellipse(random(530, 570),random(430,460), 7, 7);
     }
-    popMatrix();
-  }
+  popMatrix();
+    
+  crowd.amp(num*0.25);
+}
   
   void drawCircle_cr09(int num) {
   int colour = color(0);
@@ -379,6 +380,8 @@ void drawCircle_cr07(int num) {
     ellipse(random(510, 550),random(385, 400), 7, 7);
     }
     popMatrix();
+    
+    crowd.amp(num*0.25);
   }
   
 void drawCircle_st18(int num) {
@@ -401,6 +404,8 @@ void drawCircle_st18(int num) {
     ellipse(random(st19_up_circle_x-boxSize, st19_up_circle_x+boxSize*2),random(st19_up_circle_y-boxSize, st19_up_circle_y+boxSize*3), 7, 7);
     }
     popMatrix();
+    
+    crowd.amp(num*0.25);
   }
   
 void drawCircle_st19(int num) {
@@ -423,6 +428,8 @@ void drawCircle_st19(int num) {
     ellipse(random(st19_up_circle_x-boxSize, st19_up_circle_x+boxSize*2),random(st19_up_circle_y-boxSize, st19_up_circle_y+boxSize*3), 7, 7);
     }
     popMatrix();
+    
+    crowd.amp(num*0.25);
   }
   
   
@@ -872,6 +879,13 @@ void showAll() {
          drawCircle_cr09(cr09_in[index[0]]);
          drawCircle_cr09(cr09_out[index[0]]);
 
+          int sum = 0;
+          
+          sum = (st18_up[index[0]] + st18_down[index[0]] + st19_up[index[0]] + st19_down[index[0]] 
+                + cr07_in[index[0]] + cr07_out[index[0]] + cr09_in[index[0]] + cr09_out[index[0]]) / 8;
+          
+          crowd.amp(sum*0.25);
+          
          noFill();
           stroke(255);
           strokeWeight(2);
@@ -881,4 +895,6 @@ void showAll() {
          delay(300);
       }
       index[0]++;
+      
+ 
 }
