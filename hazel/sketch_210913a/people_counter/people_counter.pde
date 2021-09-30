@@ -216,8 +216,8 @@ void backend_setup() {
   
   /* circle zone setup */
   
-  st19_up_circle_x = width * 0.52;
-  st19_up_circle_y = height * 0.47;
+  st19_up_circle_x = width * 0.64;
+  st19_up_circle_y = height * 0.52;
   
   
   /* csv setup */
@@ -367,7 +367,7 @@ void drawCircle_cr07(int num) {
   for (int i = 0; i < num; i++) {
     fill(colour);
     noStroke();
-    ellipse(random(530, 570),random(430,460), 7, 7);
+    ellipse(random(660, 700),random(420,450), 7, 7);
     }
   popMatrix();
     
@@ -396,7 +396,7 @@ void drawCircle_cr07(int num) {
   for (int i = 0; i < num; i++) {
     fill(colour);
     noStroke();
-    ellipse(random(510, 550),random(385, 400), 7, 7);
+    ellipse(random(675, 715),random(460, 500), 7, 7);
     }
     popMatrix();
     
@@ -431,8 +431,8 @@ void drawCircle_st18(int num) {
     crowd.amp(num*0.25);
     
     if (num > 6) {
-    alert.play();
-  }
+      alert.play();
+    }
   }
   
 void drawCircle_st19(int num) {
@@ -484,7 +484,7 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     noFill();
     stroke(255);
     strokeWeight(2);
-    ellipse(545, 440, 70, 70);
+    ellipse(680, 430, 70, 70);
     
     drawCircle_cr07(data[index[1]]);
     wrteZoneName("Date/Time: \n"+time[index[1]], width*0.82, height*0.43);
@@ -533,7 +533,7 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     noFill();
     stroke(255);
     strokeWeight(2);
-    ellipse(545, 440, 70, 70);
+    ellipse(680, 430, 70, 70);
     
     drawCircle_cr07(data[index[2]]);
     wrteZoneName("Date/Time: \n"+time[index[2]], width*0.82, height*0.43);
@@ -579,7 +579,7 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     noFill();
     stroke(255);
     strokeWeight(2);
-    ellipse(530, 385, 70, 70);
+    ellipse(695, 485, 70, 70);
     
     drawCircle_cr09(data[index[3]]);
     wrteZoneName("Date/Time: \n"+time[index[3]], width*0.82, height*0.43);
@@ -620,7 +620,7 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     noFill();
     stroke(255);
     strokeWeight(2);
-    ellipse(530, 385, 70, 70);
+    ellipse(695, 485, 70, 70);
     
     drawCircle_cr09(data[index[4]]);
     wrteZoneName("Date/Time: \n"+time[index[4]], width*0.82, height*0.43);
