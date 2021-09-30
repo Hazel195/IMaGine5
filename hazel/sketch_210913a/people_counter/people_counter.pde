@@ -34,7 +34,7 @@ boolean st19_down_click = false;
 
 PImage img, bg, graph;
 
-SoundFile click, bgm, crowd;
+SoundFile click, bgm, crowd, alert;
 
 int boxSize = 9;
 
@@ -179,6 +179,7 @@ void backend_setup() {
   click = new SoundFile(this, "click.mp3");
   bgm = new SoundFile(this, "bgm.mp3");
   crowd = new SoundFile(this, "noise.mp3");
+  alert = new SoundFile(this, "alert.mp3");
   
   bg = loadImage("bg.png");
   //img = loadImage("05.png");
@@ -371,6 +372,11 @@ void drawCircle_cr07(int num) {
   popMatrix();
     
   crowd.amp(num*0.25);
+  
+  if (num > 6) {
+    alert.play();
+  }
+  
 }
   
   void drawCircle_cr09(int num) {
@@ -395,6 +401,10 @@ void drawCircle_cr07(int num) {
     popMatrix();
     
     crowd.amp(num*0.25);
+    
+    if (num > 6) {
+    alert.play();
+  }
   }
   
 void drawCircle_st18(int num) {
@@ -419,6 +429,10 @@ void drawCircle_st18(int num) {
     popMatrix();
     
     crowd.amp(num*0.25);
+    
+    if (num > 6) {
+    alert.play();
+  }
   }
   
 void drawCircle_st19(int num) {
@@ -443,6 +457,10 @@ void drawCircle_st19(int num) {
     popMatrix();
     
     crowd.amp(num*0.25);
+    
+    if (num > 6) {
+    alert.play();
+  }
   }
   
   
