@@ -107,7 +107,7 @@ float st19_down_circle_x, st19_down_circle_y;
 PFont font;
 
 void setup() {
-  size(1200, 846);
+  size(1200, 854);
   leap = new LeapMotion(this);
   backend_setup(); 
   bgm.play();
@@ -181,7 +181,7 @@ void backend_setup() {
   crowd = new SoundFile(this, "noise.mp3");
   alert = new SoundFile(this, "alert.mp3");
   
-  bg = loadImage("bg.png");
+  bg = loadImage("bg1.png");
   //img = loadImage("05.png");
   //graph = loadImage("AAPL2010V4_2.tif");
   
