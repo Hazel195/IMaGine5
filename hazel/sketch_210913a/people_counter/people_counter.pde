@@ -32,6 +32,7 @@ boolean st18_up_click = false;
 boolean st18_down_click = false;
 boolean st19_up_click = false;
 boolean st19_down_click = false;
+boolean info_click = false;
 
 
 PImage img, bg, graph;
@@ -135,7 +136,6 @@ void draw() {
   
   display();
   backend_draw();
-  show_graph();
   fingerPosition();
 }
 
@@ -173,6 +173,7 @@ void display() {
   display_st19_up(st19_up_x, st19_up_y, st19_up, st19_up_time);
   display_st19_down(st19_down_x, st19_down_y, st19_down, st19_down_time);
   
+  info();
 }
 
 void backend_setup() {
@@ -292,12 +293,7 @@ void backend_draw() {
   wrteZoneName(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.6);
 
   wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.895 + boxSize * 0.6);
-}
 
-void show_graph() {
-  if (clicked % 2 == 1) {
-    image(graph, width * 0.2, height/2);
-  }
 }
 
 void wrteZoneName(String zone, float xpos, float ypos) {
@@ -468,7 +464,17 @@ void drawCircle_st19(int num) {
   }
   
   
-
+void info() {
+  if /*((fingerPos.x > width * 0.95 - 30 && fingerPos.x < 0.95 + 30 && 
+        fingerPos.y > height * 0.22 -30 && fingerPos.y < height * 0.22 +30) 
+        ||(mouseX > width * 0.95 - 30 && mouseX < width * 0.95 + 30 && 
+      mouseY > height * 0.22 - 30 && mouseY < height * 0.22 + 30) || */(info_click){ //) {
+        noStroke();
+        fill(0);
+        rect(500, 100, 100, 200, 20);
+        noFill();
+      }
+}
 
 void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
@@ -888,6 +894,14 @@ void mouseClicked() {
         
       } else {
         st19_down_click = false;
+      }
+  } else if (mouseX > width * 0.95 - 30 && mouseX < width * 0.95 + 30 && 
+      mouseY > height * 0.22 - 30 && mouseY < height * 0.22 + 30) {
+      if (!info_click) {
+        info_click = true;
+        
+      } else {
+        info_click = false;
       }
   } 
   
