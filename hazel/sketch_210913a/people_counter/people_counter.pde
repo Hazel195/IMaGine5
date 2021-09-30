@@ -10,6 +10,8 @@ LeapMotion leap;
 
 PVector fingerPos = new PVector(0,0);;
 
+PImage info;
+
 int cr07_in[], cr07_out[],
     cr09_in[], cr09_out[], 
     st18_up[], st18_down[], 
@@ -107,7 +109,7 @@ float st19_down_circle_x, st19_down_circle_y;
 PFont font;
 
 void setup() {
-  size(1200, 854);
+  size(1200, 790);
   leap = new LeapMotion(this);
   backend_setup(); 
   bgm.play();
@@ -182,42 +184,41 @@ void backend_setup() {
   alert = new SoundFile(this, "alert.mp3");
   
   bg = loadImage("bg1.png");
-  //img = loadImage("05.png");
-  //graph = loadImage("AAPL2010V4_2.tif");
+  info = loadImage("info.png");
   
   /* name & box pos setup */ 
   
   cr07_in_x = width * 0.6;
-  cr07_in_y = height * 0.8;
+  cr07_in_y = height * 0.88;
   
   cr07_out_x = width * 0.6;
-  cr07_out_y = height * 0.85;
+  cr07_out_y = height * 0.93;
   
   
   cr09_in_x = width * 0.8;
-  cr09_in_y = height * 0.8;
+  cr09_in_y = height * 0.88;
   
   cr09_out_x = width * 0.8;
-  cr09_out_y = height * 0.85;
+  cr09_out_y = height * 0.93;
   
   st18_up_x = width * 0.25;
-  st18_up_y = height * 0.8;
+  st18_up_y = height * 0.88;
   
   st18_down_x = width * 0.25;
-  st18_down_y = height * 0.85;
+  st18_down_y = height * 0.93;
   
   st19_up_x = width * 0.43;
-  st19_up_y = height * 0.8;
+  st19_up_y = height * 0.88;
   
   st19_down_x = width * 0.43;
-  st19_down_y = height * 0.85;
+  st19_down_y = height * 0.93;
   
   rectMode(RADIUS); 
   
   /* circle zone setup */
   
   st19_up_circle_x = width * 0.64;
-  st19_up_circle_y = height * 0.52;
+  st19_up_circle_y = height * 0.55;
   
   
   /* csv setup */
@@ -261,8 +262,11 @@ void backend_setup() {
 
 void backend_draw() {
   // draw the show all button
-  stroke(59, 82, 255);
-  rect(width*0.1 , height*0.82, boxSize, boxSize);
+  stroke(255, 145, 43);
+  rect(width*0.1 , height*0.89, boxSize, boxSize);
+  
+  // draw the info button
+  image(info, width*0.95, height*0.22);
   
   stroke(252, 186, 3); //59, 82, 255); <- blue
   // Draw the name & box
@@ -287,7 +291,7 @@ void backend_draw() {
   wrteZoneName(" STAIR 19 UP", st19_up_x + boxSize * 1.5, st19_up_y + boxSize * 0.6);
   wrteZoneName(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.6);
 
-  wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.82 + boxSize * 0.6);
+  wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.895 + boxSize * 0.6);
 }
 
 void show_graph() {
