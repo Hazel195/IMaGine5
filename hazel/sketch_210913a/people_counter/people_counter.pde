@@ -30,7 +30,7 @@ boolean st19_down_click = false;
 boolean info_click = false;
 boolean all_clicked = false;
 
-PImage img, bg, graph;
+PImage img, bg, graph, info_des;
 
 SoundFile click, bgm, crowd, alert;
 
@@ -115,6 +115,7 @@ void setup() {
   crowd.play();
   crowd.amp(0.05);
   crowd.loop();
+  alert.amp(0.7);
  
 }
 
@@ -174,6 +175,7 @@ void backend_setup() {
   
   bg = loadImage("bg1.png");
   info = loadImage("info.png");
+  info_des = loadImage("info_des.png");
   
   /* name & box pos setup */ 
   
@@ -339,13 +341,17 @@ void drawCircle_cr07(int num) {
   
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
+    crowd.amp(0.1);
   } else if (num > 2 && 6 > num) {
     colour = color(250, 204, 0);
+    crowd.amp(0.2);
   } else if (num > 5 && 9 > num) {
     colour = color(250, 125, 0);
+    crowd.amp(0.6);
   } else {
     colour = color(204, 12, 12);
-  } 
+    crowd.amp(1);
+  }
   
   
   pushMatrix();
@@ -356,9 +362,9 @@ void drawCircle_cr07(int num) {
     }
   popMatrix();
     
-  crowd.amp(num*0.25);
+  //crowd.amp(num*0.2);
   
-  if (num > 6) {
+  if (num > 8) {
     alert.play();
   }
   
@@ -369,13 +375,17 @@ void drawCircle_cr07(int num) {
   
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
+    crowd.amp(0.1);
   } else if (num > 2 && 6 > num) {
     colour = color(250, 204, 0);
+    crowd.amp(0.2);
   } else if (num > 5 && 9 > num) {
     colour = color(250, 125, 0);
+    crowd.amp(0.6);
   } else {
     colour = color(204, 12, 12);
-  } 
+    crowd.amp(1);
+  }
   
   pushMatrix();
   for (int i = 0; i < num; i++) {
@@ -385,9 +395,9 @@ void drawCircle_cr07(int num) {
     }
     popMatrix();
     
-    crowd.amp(num*0.25);
+    //crowd.amp(num*0.2);
     
-    if (num > 6) {
+    if (num > 8) {
     alert.play();
   }
   }
@@ -397,13 +407,17 @@ void drawCircle_st18(int num) {
   
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
+    crowd.amp(0.1);
   } else if (num > 2 && 6 > num) {
     colour = color(250, 204, 0);
+    crowd.amp(0.2);
   } else if (num > 5 && 9 > num) {
     colour = color(250, 125, 0);
+    crowd.amp(0.6);
   } else {
     colour = color(204, 12, 12);
-  } 
+    crowd.amp(1);
+  }
   
   pushMatrix();
   for (int i = 0; i < num; i++) {
@@ -413,9 +427,9 @@ void drawCircle_st18(int num) {
     }
     popMatrix();
     
-    crowd.amp(num*0.25);
+    //crowd.amp(num*0.2);
     
-    if (num > 6) {
+    if (num > 8) {
       alert.play();
     }
   }
@@ -425,13 +439,17 @@ void drawCircle_st19(int num) {
   
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
+    crowd.amp(0.1);
   } else if (num > 2 && 6 > num) {
     colour = color(250, 204, 0);
+    crowd.amp(0.2);
   } else if (num > 5 && 9 > num) {
     colour = color(250, 125, 0);
+    crowd.amp(0.6);
   } else {
     colour = color(204, 12, 12);
-  } 
+    crowd.amp(1);
+  }
   
   pushMatrix();
   for (int i = 0; i < num; i++) {
@@ -441,9 +459,9 @@ void drawCircle_st19(int num) {
     }
     popMatrix();
     
-    crowd.amp(num*0.25);
+    //crowd.amp(num*0.2);
     
-    if (num > 6) {
+    if (num > 8) {
     alert.play();
   }
   }
@@ -454,10 +472,7 @@ void info() {
         fingerPos.y > height * 0.22 -30 && fingerPos.y < height * 0.22 +30) 
         ||(mouseX > width * 0.95 - 30 && mouseX < width * 0.95 + 30 && 
       mouseY > height * 0.22 - 30 && mouseY < height * 0.22 + 30) || */(info_click){ //) {
-        noStroke();
-        fill(0);
-        rect(500, 100, 100, 200, 20);
-        noFill();
+        image(info_des, width * 0.7, height * 0.22);
       }
 }
 
