@@ -1,11 +1,6 @@
 import de.voidplus.leapmotion.*;
 import processing.sound.*;
 
-import controlP5.*;
-ControlP5 cp5;
-DropdownList d1;
-int cnt = 0;
-
 LeapMotion leap; 
 
 PVector fingerPos = new PVector(0,0);;
@@ -32,9 +27,10 @@ boolean st18_up_click = false;
 boolean st18_down_click = false;
 boolean st19_up_click = false;
 boolean st19_down_click = false;
+boolean info_click = false;
+boolean all_clicked = false;
 
-
-PImage img, bg, graph;
+PImage img, bg, graph, info_des;
 
 SoundFile click, bgm, crowd, alert;
 
@@ -117,25 +113,18 @@ void setup() {
   bgm.amp(0.01);
   click.amp(2);
   crowd.play();
-  crowd.amp(0.1);
+  crowd.amp(0.05);
   crowd.loop();
-  
-  cp5 = new ControlP5(this);
-  
-  /*d1 = cp5.addDropdownList("myList-d1")
-          .setPosition(width * 0.67, height * 0.06)
-          ;
-          
-  customize(d1);*/
+  alert.amp(0.7);
+ 
 }
-
+//
 void draw() { 
   background(255);
   image(bg, 0, 0);
   
   display();
   backend_draw();
-  show_graph();
   fingerPosition();
 }
 
@@ -173,6 +162,7 @@ void display() {
   display_st19_up(st19_up_x, st19_up_y, st19_up, st19_up_time);
   display_st19_down(st19_down_x, st19_down_y, st19_down, st19_down_time);
   
+  info();
 }
 
 void backend_setup() {
@@ -185,6 +175,7 @@ void backend_setup() {
   
   bg = loadImage("bg1.png");
   info = loadImage("info.png");
+  info_des = loadImage("info_des.png");
   
   /* name & box pos setup */ 
   
@@ -263,7 +254,7 @@ void backend_setup() {
 void backend_draw() {
   // draw the show all button
   stroke(255, 145, 43);
-  rect(width*0.1 , height*0.89, boxSize, boxSize);
+  rect(width*0.1 , height*0.9, boxSize, boxSize);
   
   // draw the info button
   image(info, width*0.95, height*0.22);
@@ -291,13 +282,8 @@ void backend_draw() {
   wrteZoneName(" STAIR 19 UP", st19_up_x + boxSize * 1.5, st19_up_y + boxSize * 0.6);
   wrteZoneName(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.6);
 
-  wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.895 + boxSize * 0.6);
-}
+  wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.9 + boxSize * 0.6);
 
-void show_graph() {
-  if (clicked % 2 == 1) {
-    image(graph, width * 0.2, height/2);
-  }
 }
 
 void wrteZoneName(String zone, float xpos, float ypos) {
@@ -353,19 +339,20 @@ String[] setupCsvTime(String fileName) {
 void drawCircle_cr07(int num) {
   int colour = color(0);
   
-  if (num > 0 && 2 > num) {
+  if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
-  } else if (num > 1 && 4 > num) {
-    colour = color(252, 186, 3);
-  } else if (num > 3 && 7 > num) {
-    colour = color(252, 136, 3);
-  } else if (num > 6 && 9 > num) {
-    colour = color(252, 111, 3);
-  } else if (num > 8 && 11 > num) {
-    colour = color(252, 53, 3);
+    crowd.amp(0.1);
+  } else if (num > 2 && 6 > num) {
+    colour = color(250, 204, 0);
+    crowd.amp(0.2);
+  } else if (num > 5 && 9 > num) {
+    colour = color(250, 125, 0);
+    crowd.amp(0.6);
   } else {
     colour = color(204, 12, 12);
+    crowd.amp(1);
   }
+  
   
   pushMatrix();
   for (int i = 0; i < num; i++) {
@@ -375,9 +362,9 @@ void drawCircle_cr07(int num) {
     }
   popMatrix();
     
-  crowd.amp(num*0.25);
+  //crowd.amp(num*0.2);
   
-  if (num > 6) {
+  if (num > 8) {
     alert.play();
   }
   
@@ -388,12 +375,16 @@ void drawCircle_cr07(int num) {
   
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
+    crowd.amp(0.1);
   } else if (num > 2 && 6 > num) {
-    colour = color(252, 186, 3);
-  } else if (num > 5 && 10 > num) {
-    colour = color(252, 136, 3);
-  } else if (num > 9) {
-    colour = color(252, 111, 3);
+    colour = color(250, 204, 0);
+    crowd.amp(0.2);
+  } else if (num > 5 && 9 > num) {
+    colour = color(250, 125, 0);
+    crowd.amp(0.6);
+  } else {
+    colour = color(204, 12, 12);
+    crowd.amp(1);
   }
   
   pushMatrix();
@@ -404,9 +395,9 @@ void drawCircle_cr07(int num) {
     }
     popMatrix();
     
-    crowd.amp(num*0.25);
+    //crowd.amp(num*0.2);
     
-    if (num > 6) {
+    if (num > 8) {
     alert.play();
   }
   }
@@ -416,12 +407,16 @@ void drawCircle_st18(int num) {
   
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
+    crowd.amp(0.1);
   } else if (num > 2 && 6 > num) {
-    colour = color(252, 186, 3);
-  } else if (num > 5 && 10 > num) {
-    colour = color(252, 136, 3);
-  } else if (num > 9) {
-    colour = color(252, 111, 3);
+    colour = color(250, 204, 0);
+    crowd.amp(0.2);
+  } else if (num > 5 && 9 > num) {
+    colour = color(250, 125, 0);
+    crowd.amp(0.6);
+  } else {
+    colour = color(204, 12, 12);
+    crowd.amp(1);
   }
   
   pushMatrix();
@@ -432,9 +427,9 @@ void drawCircle_st18(int num) {
     }
     popMatrix();
     
-    crowd.amp(num*0.25);
+    //crowd.amp(num*0.2);
     
-    if (num > 6) {
+    if (num > 8) {
       alert.play();
     }
   }
@@ -444,12 +439,16 @@ void drawCircle_st19(int num) {
   
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
+    crowd.amp(0.1);
   } else if (num > 2 && 6 > num) {
-    colour = color(252, 186, 3);
-  } else if (num > 5 && 10 > num) {
-    colour = color(252, 136, 3);
-  } else if (num > 9) {
-    colour = color(252, 111, 3);
+    colour = color(250, 204, 0);
+    crowd.amp(0.2);
+  } else if (num > 5 && 9 > num) {
+    colour = color(250, 125, 0);
+    crowd.amp(0.6);
+  } else {
+    colour = color(204, 12, 12);
+    crowd.amp(1);
   }
   
   pushMatrix();
@@ -460,15 +459,22 @@ void drawCircle_st19(int num) {
     }
     popMatrix();
     
-    crowd.amp(num*0.25);
+    //crowd.amp(num*0.2);
     
-    if (num > 6) {
+    if (num > 8) {
     alert.play();
   }
   }
   
   
-
+void info() {
+  if /*((fingerPos.x > width * 0.95 - 30 && fingerPos.x < 0.95 + 30 && 
+        fingerPos.y > height * 0.22 -30 && fingerPos.y < height * 0.22 +30) 
+        ||(mouseX > width * 0.95 - 30 && mouseX < width * 0.95 + 30 && 
+      mouseY > height * 0.22 - 30 && mouseY < height * 0.22 + 30) || */(info_click){ //) {
+        image(info_des, width * 0.7, height * 0.22);
+      }
+}
 
 void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
@@ -583,7 +589,7 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     noFill();
     stroke(255);
     strokeWeight(2);
-    ellipse(695, 485, 70, 70);
+    ellipse(695, 485, 70, 70); 
     
     drawCircle_cr09(data[index[3]]);
     wrteZoneName("Date/Time: \n"+time[index[3]], width*0.82, height*0.43);
@@ -889,6 +895,22 @@ void mouseClicked() {
       } else {
         st19_down_click = false;
       }
+  } else if (mouseX > width * 0.95 - 30 && mouseX < width * 0.95 + 30 && 
+      mouseY > height * 0.22 - 30 && mouseY < height * 0.22 + 30) {
+      if (!info_click) {
+        info_click = true;
+        
+      } else {
+        info_click = false;
+      }
+  } else if (mouseX > width*0.1-boxSize && mouseX < width*0.1+boxSize && 
+      mouseY > height*0.9-boxSize && mouseY < height*0.9+boxSize) {
+      if (!all_clicked) {
+        all_clicked = true;
+        
+      } else {
+        all_clicked = false;
+      }
   } 
   
 }
@@ -899,11 +921,11 @@ void showAll() {
   if (index[0] > 100) {
              index[0] = 0;
            }
-  if (mouseX > width*0.1-boxSize && mouseX < width*0.1+boxSize && 
-      mouseY > height*0.82-boxSize && mouseY < height*0.82+boxSize) {
+  if ((mouseX > width*0.1-boxSize && mouseX < width*0.1+boxSize && 
+      mouseY > height*0.9-boxSize && mouseY < height*0.9+boxSize) || (all_clicked)) {
         fill(255, 236, 150); //<- yellow
       
-        rect(width*0.1, height*0.82, boxSize, boxSize);
+        rect(width*0.1, height*0.9, boxSize, boxSize);
         
          drawCircle_st18(st18_up[index[0]]);
          drawCircle_st18(st18_down[index[0]]);
@@ -924,42 +946,10 @@ void showAll() {
          noFill();
           stroke(255);
           strokeWeight(2);
-          ellipse(545, 440, 70, 70);
+          ellipse(695, 485, 70, 70); 
+          ellipse(680, 430, 70, 70);
           ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
-          ellipse(530, 385, 70, 70);
          delay(300);
       }
       index[0]++;
-}
-
-
-
-void customize(DropdownList ddl) {
-  // a convenience function to customize a DropdownList
-  ddl.setBackgroundColor(color(190));
-  ddl.setItemHeight(20);
-  ddl.setBarHeight(15);
-  ddl.getCaptionLabel().set("dropdown");
-  for (int i=0;i<40;i++) {
-    ddl.addItem("item "+i, i);
-  }
-  //ddl.scroll(0);
-  ddl.setColorBackground(color(60));
-  ddl.setColorActive(color(255, 128));
-}
-
-void controlEvent(ControlEvent theEvent) {
-  // DropdownList is of type ControlGroup.
-  // A controlEvent will be triggered from inside the ControlGroup class.
-  // therefore you need to check the originator of the Event with
-  // if (theEvent.isGroup())
-  // to avoid an error message thrown by controlP5.
-
-  if (theEvent.isGroup()) {
-    // check if the Event was triggered from a ControlGroup
-    println("event from group : "+theEvent.getGroup().getValue()+" from "+theEvent.getGroup());
-  } 
-  else if (theEvent.isController()) {
-    println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
-  }
 }
