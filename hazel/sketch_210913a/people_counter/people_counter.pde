@@ -118,7 +118,7 @@ void setup() {
   alert.amp(0.7);
  
 }
-
+//
 void draw() { 
   background(255);
   image(bg, 0, 0);
