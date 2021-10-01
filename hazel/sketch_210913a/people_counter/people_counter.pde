@@ -3,10 +3,10 @@ import processing.sound.*;
 
 LeapMotion leap; 
 
-PVector fingerPos = new PVector(0,0);;
+// variable tracking the finger position with leap motion controller
+PVector fingerPos = new PVector(0,0);
 
-PImage info;
-
+// arrays for people counter data
 int cr07_in[], cr07_out[],
     cr09_in[], cr09_out[], 
     st18_up[], st18_down[], 
@@ -29,77 +29,66 @@ boolean st19_up_click = false;
 boolean st19_down_click = false;
 boolean info_click = false;
 boolean all_clicked = false;
+boolean showAll = false;
 
-PImage img, bg, graph, info_des;
+PImage img, bg, graph, info, info_des;
 
 SoundFile click, bgm, crowd, alert;
 
 int boxSize = 9;
 
-int clicked = 0;
-
-boolean showAll = false;
-
 ////////////////////////////
 
-/* CR07 */
+/* CR07 variables */
 
 float cr07_in_x, cr07_in_y;
 boolean cr07_overBox = false;
-boolean cr07_locked = false;
 float cr07_circle_x, cr07_circle_y; 
 
 
 float cr07_out_x, cr07_out_y;
 boolean cr07_out_overBox = false;
-boolean cr07_out_locked = false;
 float cr07_out_circle_x, cr07_out_circle_y;
 
 
 ////////////////////////////
 
-/* CR09 */
+/* CR09 variables */
 
 float cr09_in_x, cr09_in_y;
 boolean cr09_overBox = false;
-boolean cr09_locked = false;
 float cr09_circle_x, cr09_circle_y; 
 
 
 float cr09_out_x, cr09_out_y;
 boolean cr09_out_overBox = false;
-boolean cr09_out_locked = false;
 float cr09_out_circle_x, cr09_out_circle_y;
 
 ////////////////////////////
 
-/* ST18 */
+/* ST18 variables */
 
 float st18_up_x, st18_up_y;
 boolean st18_up_overBox = false;
-boolean st18_up_locked = false;
 float st18_up_circle_x, st18_up_circle_y; 
 
 
 float st18_down_x, st18_down_y;
 boolean st18_down_overBox = false;
-boolean st18_down_locked = false;
 float st18_down_circle_x, st18_down_circle_y; 
 
 
 ////////////////////////////
 
-/* ST19 */
+/* ST19 variables */
 
 float st19_up_x, st19_up_y;
 boolean st19_up_overBox = false;
-boolean st19_up_locked = false;
 float st19_up_circle_x, st19_up_circle_y; 
 
 
 float st19_down_x, st19_down_y;
 boolean st19_down_overBox = false;
-boolean st19_down_locked = false;
 float st19_down_circle_x, st19_down_circle_y; 
 
 PFont font;
@@ -108,6 +97,8 @@ void setup() {
   size(1200, 790);
   leap = new LeapMotion(this);
   backend_setup(); 
+  
+  //sound setup
   bgm.play();
   bgm.loop(); //add feature: play/stop button
   bgm.amp(0.01);
@@ -118,35 +109,37 @@ void setup() {
   alert.amp(0.7);
  
 }
-//
+
 void draw() { 
   background(255);
   image(bg, 0, 0);
   
+  //generate the people counter circles
   display();
   backend_draw();
+  
+  //track and show the finger position using the leap motion sensor
   fingerPosition();
 }
 
 
-
+// track the index finger position
 void fingerPosition() {
   for (Hand hand : leap.getHands()) {
-    //hand.draw();
-    
     Finger fingerIndex = hand.getIndexFinger();
     PVector indexFingerPosition   = fingerIndex.getPosition();
     fingerPos.x = indexFingerPosition.x;
     fingerPos.y = indexFingerPosition.y;
     
-    println(fingerPos.x + " " + fingerPos.y);
-    //fill(palette.randomColour());
+    //draw the pointer on the finger's x & coordinates
     fill(252, 53, 3);
     noStroke();
     ellipse(indexFingerPosition.x, indexFingerPosition.y, 10, 10);
   }
 }
 
+
+//draw the circles according to the people counter data
 void display() {
   showAll();
   
@@ -162,29 +155,34 @@ void display() {
   display_st19_up(st19_up_x, st19_up_y, st19_up, st19_up_time);
   display_st19_down(st19_down_x, st19_down_y, st19_down, st19_down_time);
   
+  //show the info button
   info();
 }
 
+
+//initial file loadings
 void backend_setup() {
+  //loading
   font = createFont("Arial.ttf", 128);
   textFont(font);
+  
+  //loading sound files
   click = new SoundFile(this, "click.mp3");
   bgm = new SoundFile(this, "bgm.mp3");
   crowd = new SoundFile(this, "noise.mp3");
   alert = new SoundFile(this, "alert.mp3");
   
+  //loading image files
   bg = loadImage("bg1.png");
   info = loadImage("info.png");
   info_des = loadImage("info_des.png");
   
-  /* name & box pos setup */ 
-  
+  //name & box pos setup 
   cr07_in_x = width * 0.6;
   cr07_in_y = height * 0.88;
   
   cr07_out_x = width * 0.6;
   cr07_out_y = height * 0.93;
-  
   
   cr09_in_x = width * 0.8;
   cr09_in_y = height * 0.88;
@@ -206,22 +204,17 @@ void backend_setup() {
   
   rectMode(RADIUS); 
   
-  /* circle zone setup */
-  
+  //circle zone setup 
   st19_up_circle_x = width * 0.64;
   st19_up_circle_y = height * 0.55;
   
   
-  /* csv setup */
+  //csv setup
   
   // CR07_in setup
   cr07_in = setupCsv("CB11.PC05.23_ CB11.05.CR07 In.txt");
   cr07_in_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR07 In.txt");
-  
-  for (int i = 0; i < 8; i++) {
-    println(cr07_in_time[i] +" "+ cr07_in[i] + "\n");
-  }
-    
+ 
   // CR07_out setup
   cr07_out = setupCsv("CB11.PC05.23_ CB11.05.CR07 Out.txt");
   cr07_out_time = setupCsvTime("CB11.PC05.23_ CB11.05.CR07 Out.txt");
@@ -251,16 +244,18 @@ void backend_setup() {
   st19_down_time = setupCsvTime("CB11.PC05.22_ CB11.06.ST19 Down.txt");
 }
 
+
 void backend_draw() {
-  // draw the show all button
+  //draw the show all button
   stroke(255, 145, 43);
   rect(width*0.1 , height*0.9, boxSize, boxSize);
   
-  // draw the info button
+  //draw the info button
   image(info, width*0.95, height*0.22);
   
   stroke(252, 186, 3); //59, 82, 255); <- blue
-  // Draw the name & box
+  
+  //draw the name & box
   rect(cr07_in_x, cr07_in_y, boxSize, boxSize);
   rect(cr07_out_x, cr07_out_y, boxSize, boxSize);
   rect(cr09_in_x, cr09_in_y, boxSize, boxSize);
@@ -270,6 +265,7 @@ void backend_draw() {
   rect(st19_up_x, st19_up_y, boxSize, boxSize);
   rect(st19_down_x, st19_down_y, boxSize, boxSize);
   
+  //write the name for each zone
   wrteZoneName(" CORRIDOR 07 IN", cr07_in_x + boxSize * 1.5, cr07_in_y + boxSize * 0.6);
   wrteZoneName(" CORRIDOR 07 OUT", cr07_out_x + boxSize * 1.5, cr07_out_y + boxSize * 0.6);
   
@@ -283,9 +279,9 @@ void backend_draw() {
   wrteZoneName(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.6);
 
   wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.9 + boxSize * 0.6);
-
 }
 
+//function to write string to the sketch
 void wrteZoneName(String zone, float xpos, float ypos) {
   fill(0);
   textFont(font);
@@ -293,52 +289,43 @@ void wrteZoneName(String zone, float xpos, float ypos) {
   text(zone, xpos, ypos);
 }
 
+//load the csv files and save it to the arrays (people counting numbers data)
 int[] setupCsv(String fileName) {
-  
   int[] result;
   String[] lines = loadStrings(fileName);
 
-  // How long is the dataset
   result = new int[lines.length];
   
   for (int i=0; i<lines.length; i++) {
-    // Frst split each line using commas as separator
     String[] pieces = split(lines[i], ",");
-
-    // get the closing price of stock, and month
     result[i] = int(pieces[1]);
   }
   println(fileName + " Data Loaded: " + result.length + " entries.");
-  
   return result;
-  
 }
 
+//load the csv files and save it to the arrays (recorded time data)
 String[] setupCsvTime(String fileName) {
   
   String[] result;
   String[] lines = loadStrings(fileName);
 
-  // How long is the dataset
   result = new String[lines.length];
   
   for (int i=0; i<lines.length; i++) {
-    // Frst split each line using commas as separator
     String[] pieces = split(lines[i], ",");
-
-    // get the closing price of stock, and month
     result[i] = pieces[0];
   }
   println(fileName + " Data Loaded: " + result.length + " entries.");
-  
   return result;
   
 }
 
-
+//draw the circle in the zone CR07
 void drawCircle_cr07(int num) {
   int colour = color(0);
   
+  //colour code for each number range
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
     crowd.amp(0.1);
@@ -352,8 +339,7 @@ void drawCircle_cr07(int num) {
     colour = color(204, 12, 12);
     crowd.amp(1);
   }
-  
-  
+
   pushMatrix();
   for (int i = 0; i < num; i++) {
     fill(colour);
@@ -361,18 +347,20 @@ void drawCircle_cr07(int num) {
     ellipse(random(660, 700),random(420,450), 7, 7);
     }
   popMatrix();
-    
-  //crowd.amp(num*0.2);
   
+  //plays alert sount when people count exceeds 8
   if (num > 8) {
     alert.play();
   }
   
 }
+
   
-  void drawCircle_cr09(int num) {
+//draw the circle in the zone CR09
+void drawCircle_cr09(int num) {
   int colour = color(0);
   
+  //colour code for each number range
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
     crowd.amp(0.1);
@@ -392,19 +380,20 @@ void drawCircle_cr07(int num) {
     fill(colour);
     noStroke();
     ellipse(random(675, 715),random(460, 500), 7, 7);
-    }
-    popMatrix();
-    
-    //crowd.amp(num*0.2);
-    
-    if (num > 8) {
+  }
+  popMatrix();
+  
+  //plays alert sount when people count exceeds 8
+  if (num > 8) {
     alert.play();
   }
-  }
-  
+}
+
+//draw the circle in the zone ST18
 void drawCircle_st18(int num) {
   int colour = color(0);
   
+  //colour code for each number range
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
     crowd.amp(0.1);
@@ -424,19 +413,20 @@ void drawCircle_st18(int num) {
     fill(colour);
     noStroke();
     ellipse(random(st19_up_circle_x-boxSize, st19_up_circle_x+boxSize*2),random(st19_up_circle_y-boxSize, st19_up_circle_y+boxSize*3), 7, 7);
-    }
-    popMatrix();
-    
-    //crowd.amp(num*0.2);
-    
-    if (num > 8) {
-      alert.play();
-    }
   }
-  
+  popMatrix();
+    
+  //plays alert sount when people count exceeds 8
+  if (num > 8) {
+    alert.play();
+  }
+}
+
+//draw the circle in the zone ST19
 void drawCircle_st19(int num) {
   int colour = color(0);
   
+  //colour code for each number range
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
     crowd.amp(0.1);
@@ -456,24 +446,20 @@ void drawCircle_st19(int num) {
     fill(colour);
     noStroke();
     ellipse(random(st19_up_circle_x-boxSize, st19_up_circle_x+boxSize*2),random(st19_up_circle_y-boxSize, st19_up_circle_y+boxSize*3), 7, 7);
-    }
-    popMatrix();
-    
-    //crowd.amp(num*0.2);
-    
-    if (num > 8) {
+  }
+  popMatrix();
+
+  //plays alert sount when people count exceeds 8
+  if (num > 8) {
     alert.play();
   }
-  }
+}
   
-  
+//display description when info button is clicked
 void info() {
-  if /*((fingerPos.x > width * 0.95 - 30 && fingerPos.x < 0.95 + 30 && 
-        fingerPos.y > height * 0.22 -30 && fingerPos.y < height * 0.22 +30) 
-        ||(mouseX > width * 0.95 - 30 && mouseX < width * 0.95 + 30 && 
-      mouseY > height * 0.22 - 30 && mouseY < height * 0.22 + 30) || */(info_click){ //) {
-        image(info_des, width * 0.7, height * 0.22);
-      }
+  if (info_click) {
+    image(info_des, width * 0.7, height * 0.22);
+  }
 }
 
 void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
