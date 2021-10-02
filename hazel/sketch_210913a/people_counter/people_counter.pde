@@ -284,7 +284,7 @@ void backend_draw() {
 
 //function to write string to the sketch
 void wrteZoneName(String zone, float xpos, float ypos) {
-  fill(0);
+  fill(120);
   textFont(font);
   textSize(17);
   text(zone, xpos, ypos);
@@ -468,7 +468,7 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr07_in_click)) {
-    wrteZoneName("CORRIDOR 07 IN", width*0.82, height*0.32);
+    //wrteZoneName("CORRIDOR 07 IN", width*0.82, height*0.32);
     
         if(frameCount % int(3) == 0) {
         index[1]++;
@@ -497,6 +497,8 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     index[1]++;
 
     if(!cr07_overBox) { 
+      fill(0);
+      text(" CORRIDOR 07 IN", cr07_in_x + boxSize * 1.5, cr07_in_y + boxSize * 0.6);
       stroke(59, 82, 255);
       fill(255, 236, 150);
       rect(cr07_in_x, cr07_in_y, boxSize, boxSize);
@@ -505,7 +507,6 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     stroke(252, 186, 3);
     strokeWeight(4);
     noFill();
-
     //overBox = false;
     //index1 = 0;
 
@@ -520,7 +521,7 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)|| (cr07_out_click)) {
     //index = 0;    
-    wrteZoneName("CORRIDOR 07 OUT", width*0.825, height*0.32);
+    //wrteZoneName("CORRIDOR 07 OUT", width*0.825, height*0.32);
     
         if(frameCount % int(3) == 0) {
         index[2]++;
@@ -549,6 +550,8 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     
 
     if(!cr07_out_overBox) { 
+      fill(0);
+      text(" CORRIDOR 07 OUT", cr07_out_x + boxSize * 1.5, cr07_out_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
       rect(cr07_out_x, cr07_out_y, boxSize, boxSize);
@@ -569,7 +572,7 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr09_in_click)) {
     
     //index = 0;
-    wrteZoneName("CORRIDOR 09 IN", width*0.835, height*0.32);
+    //wrteZoneName("CORRIDOR 09 IN", width*0.835, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index[3]++;
@@ -595,6 +598,8 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     
 
     if(!cr09_overBox) { 
+      fill(0);
+      text(" CORRIDOR 09 IN", cr09_in_x + boxSize * 1.5, cr09_in_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
       rect(cr09_in_x, cr09_in_y, boxSize, boxSize);
@@ -613,7 +618,7 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr09_out_click)) {
     //index = 0;    
-    wrteZoneName("CORRIDOR 09 OUT", width*0.825, height*0.32);
+    //wrteZoneName("CORRIDOR 09 OUT", width*0.825, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index[4]++;
@@ -638,7 +643,9 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     delay(300);
     
 
-    if(!cr09_out_overBox) { 
+    if(!cr09_out_overBox) {
+      fill(0);
+      text(" CORRIDOR 09 OUT", cr09_out_x + boxSize * 1.5, cr09_out_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
       rect(cr09_out_x, cr09_out_y, boxSize, boxSize);
@@ -658,7 +665,7 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st18_up_click)) {
     //index = 0;
-    wrteZoneName("STAIR 18 UP", width*0.845, height*0.32);
+    //wrteZoneName("STAIR 18 UP", width*0.845, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index[5]++;
@@ -684,6 +691,8 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     
 
     if(!st18_up_overBox) { 
+      fill(0);
+      text(" STAIR 18 UP", st18_up_x + boxSize * 1.5, st18_up_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
       rect(st18_up_x, st18_up_y, boxSize, boxSize);
@@ -702,7 +711,7 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st18_down_click)) {
     //index = 0;
-    wrteZoneName("STAIR 18 DOWN", width*0.835, height*0.32);
+    //wrteZoneName("STAIR 18 DOWN", width*0.835, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index[6]++;
@@ -728,6 +737,8 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     
 
     if(!st18_down_overBox) { 
+      fill(0);
+      text(" STAIR 18 DOWN", st18_down_x + boxSize * 1.5, st18_down_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
       rect(st18_down_x, st18_down_y, boxSize, boxSize);
@@ -747,7 +758,7 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st19_up_click)) {
     //index = 0;
    
-    wrteZoneName("STAIR 19 UP", width*0.845, height*0.32);
+    //wrteZoneName("STAIR 19 UP", width*0.845, height*0.32);
     
     if(frameCount % int(3) == 0) {
         index[7]++;
@@ -772,6 +783,8 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     
 
     if(!st19_up_overBox) { 
+      fill(0);
+      text(" STAIR 19 UP", st19_up_x + boxSize * 1.5, st19_up_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
       rect(st19_up_x, st19_up_y, boxSize, boxSize);
@@ -790,7 +803,7 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st19_down_click)) {
     //index = 0;
-    wrteZoneName("STAIR 19 DOWN", width*0.835, height*0.32);
+    //wrteZoneName("STAIR 19 DOWN", width*0.835, height*0.32);
     
     noFill();
     stroke(255);
@@ -815,6 +828,8 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
     
 
     if(!st19_down_overBox) { 
+      fill(0);
+      text(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
       rect(st19_down_x, st19_down_y, boxSize, boxSize);
