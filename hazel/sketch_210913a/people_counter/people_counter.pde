@@ -30,8 +30,9 @@ boolean st19_down_click = false;
 boolean info_click = false;
 boolean all_clicked = false;
 boolean showAll = false;
+boolean dark_mode = false;
 
-PImage img, bg, graph, info, info_des, details;
+PImage img, bg, bg_dark, graph, info, info_des, details;
 
 SoundFile click, bgm, crowd, alert;
 
@@ -112,7 +113,12 @@ void setup() {
 
 void draw() { 
   background(255);
-  image(bg, 0, 0);
+  
+  if (!dark_mode) {
+    image(bg, 0, 0);
+  } else {
+    image(bg_dark, 0, 0);
+  }
   
   //generate the people counter circles
   display();
@@ -174,9 +180,10 @@ void backend_setup() {
   
   //loading image files
   bg = loadImage("bg1.png");
+  bg_dark = loadImage("bg_2.png");
   info = loadImage("info.png");
   info_des = loadImage("info_des.png");
-  details = loadImage("details.png");
+  details = loadImage("details_2.png");
   
   //name & box pos setup 
   cr07_in_x = width * 0.6;
@@ -251,6 +258,9 @@ void backend_draw() {
   stroke(255, 145, 43);
   rect(width*0.1 , height*0.9, boxSize, boxSize);
   
+  //dark mode
+  rect(width*0.1 , height*0.3, boxSize, boxSize);
+  
   //draw the info button
   image(info, width*0.95, height*0.22);
   
@@ -284,7 +294,12 @@ void backend_draw() {
 
 //function to write string to the sketch
 void wrteZoneName(String zone, float xpos, float ypos) {
-  fill(120);
+  if(!dark_mode) {
+    fill(120);
+  } else {
+    fill(200);
+  }
+  
   textFont(font);
   textSize(17);
   text(zone, xpos, ypos);
@@ -487,8 +502,8 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[1]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[1]], width*0.01, height * 0.78);
+    text(time[index[1]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[1]], width*0.01, height * 0.79);
 
     //graph = loadImage("AAPL2010V4_2.tif");
     //image(graph, width * 0.8, height*0.55);
@@ -497,7 +512,12 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     index[1]++;
 
     if(!cr07_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" CORRIDOR 07 IN", cr07_in_x + boxSize * 1.5, cr07_in_y + boxSize * 0.6);
       stroke(59, 82, 255);
       fill(255, 236, 150);
@@ -511,8 +531,9 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     //index1 = 0;
 
   }
-}
 
+}
+}
 
 
 void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
@@ -540,8 +561,8 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[2]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[2]], width*0.01, height * 0.78);
+    text(time[index[2]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[2]], width*0.01, height * 0.79);
 
 
     //graph = loadImage("AAPL2010V4_2.tif");
@@ -550,7 +571,12 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     
 
     if(!cr07_out_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" CORRIDOR 07 OUT", cr07_out_x + boxSize * 1.5, cr07_out_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -563,6 +589,7 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     //overBox = false;
     //index2 = 0;
   }
+}
 }
 
 void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
@@ -591,14 +618,19 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[3]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[3]], width*0.01, height * 0.78);
+    text(time[index[3]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[3]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!cr09_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" CORRIDOR 09 IN", cr09_in_x + boxSize * 1.5, cr09_in_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -610,6 +642,7 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     noFill();
     //index = 0;
   }
+}
 }
 
 void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
@@ -637,14 +670,19 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[4]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[4]], width*0.01, height * 0.78);
+    text(time[index[4]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[4]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!cr09_out_overBox) {
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" CORRIDOR 09 OUT", cr09_out_x + boxSize * 1.5, cr09_out_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -657,6 +695,7 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     //overBox = false;
     //index4 = 0;
   }
+}
 }
 
 void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
@@ -684,14 +723,19 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[5]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[5]], width*0.01, height * 0.78);
+    text(time[index[5]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[5]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!st18_up_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" STAIR 18 UP", st18_up_x + boxSize * 1.5, st18_up_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -704,7 +748,7 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     index[5] = 0;
   }
 }
-
+}
 void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -730,14 +774,19 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[6]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[6]], width*0.01, height * 0.78);
+    text(time[index[6]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[6]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!st18_down_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" STAIR 18 DOWN", st18_down_x + boxSize * 1.5, st18_down_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -749,6 +798,7 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     noFill();
     //index6 = 0;
   }
+}
 }
 
 void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
@@ -776,14 +826,19 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[7]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[7]], width*0.01, height * 0.78);
+    text(time[index[7]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[7]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!st19_up_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" STAIR 19 UP", st19_up_x + boxSize * 1.5, st19_up_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -796,7 +851,7 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     //index7 = 0;
   }
 }
-
+}
 void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -821,14 +876,18 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[8]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[8]], width*0.01, height * 0.78);
+    text(time[index[8]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[8]], width*0.01, height * 0.79);
 
-    delay(300);
-    
+    delay(300); 
 
-    if(!st19_down_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
+
       text(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -845,6 +904,7 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
     //index8 = 0;
   }
 }
+
 
 void mouseClicked() {
   click.play();
@@ -935,6 +995,14 @@ void mouseClicked() {
         
       } else {
         all_clicked = false;
+      }
+  } else if (mouseX > width*0.1-boxSize && mouseX < width*0.1+boxSize && 
+      mouseY > height*0.3-boxSize && mouseY < height*0.3+boxSize) {
+      if (!dark_mode) {
+        dark_mode = true;
+        
+      } else {
+        dark_mode = false;
       }
   } 
   
