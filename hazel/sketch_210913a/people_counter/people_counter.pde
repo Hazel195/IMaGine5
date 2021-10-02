@@ -31,7 +31,7 @@ boolean info_click = false;
 boolean all_clicked = false;
 boolean showAll = false;
 
-PImage img, bg, graph, info, info_des;
+PImage img, bg, graph, info, info_des, details;
 
 SoundFile click, bgm, crowd, alert;
 
@@ -176,6 +176,7 @@ void backend_setup() {
   bg = loadImage("bg1.png");
   info = loadImage("info.png");
   info_des = loadImage("info_des.png");
+  details = loadImage("details.png");
   
   //name & box pos setup 
   cr07_in_x = width * 0.6;
@@ -483,8 +484,11 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     ellipse(680, 430, 70, 70);
     
     drawCircle_cr07(data[index[1]]);
-    wrteZoneName("Date/Time: \n"+time[index[1]], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index[1]], width*0.82, height * 0.5);
+    
+    image(details, 0, height*0.72);
+    fill(255);
+    text(time[index[1]], width*0.01, height*0.75);
+    text("Number of People: "+data[index[1]], width*0.01, height * 0.78);
 
     //graph = loadImage("AAPL2010V4_2.tif");
     //image(graph, width * 0.8, height*0.55);
@@ -532,8 +536,11 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     ellipse(680, 430, 70, 70);
     
     drawCircle_cr07(data[index[2]]);
-    wrteZoneName("Date/Time: \n"+time[index[2]], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index[2]], width*0.82, height * 0.5);
+    
+    image(details, 0, height*0.72);
+    fill(255);
+    text(time[index[2]], width*0.01, height*0.75);
+    text("Number of People: "+data[index[2]], width*0.01, height * 0.78);
 
 
     //graph = loadImage("AAPL2010V4_2.tif");
@@ -578,8 +585,11 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     ellipse(695, 485, 70, 70); 
     
     drawCircle_cr09(data[index[3]]);
-    wrteZoneName("Date/Time: \n"+time[index[3]], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index[3]], width*0.82, height * 0.5);
+    
+    image(details, 0, height*0.72);
+    fill(255);
+    text(time[index[3]], width*0.01, height*0.75);
+    text("Number of People: "+data[index[3]], width*0.01, height * 0.78);
 
     delay(300);
     
@@ -619,8 +629,11 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     ellipse(695, 485, 70, 70);
     
     drawCircle_cr09(data[index[4]]);
-    wrteZoneName("Date/Time: \n"+time[index[4]], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index[4]], width*0.82, height * 0.5);
+    
+    image(details, 0, height*0.72);
+    fill(255);
+    text(time[index[4]], width*0.01, height*0.75);
+    text("Number of People: "+data[index[4]], width*0.01, height * 0.78);
 
     delay(300);
     
@@ -661,8 +674,11 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
     
     drawCircle_st18(data[index[5]]);
-    wrteZoneName("Date/Time: \n"+time[index[5]], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index[5]], width*0.82, height * 0.5);
+    
+    image(details, 0, height*0.72);
+    fill(255);
+    text(time[index[5]], width*0.01, height*0.75);
+    text("Number of People: "+data[index[5]], width*0.01, height * 0.78);
 
     delay(300);
     
@@ -702,8 +718,11 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
     
     drawCircle_st18(data[index[6]]);
-    wrteZoneName("Date/Time: \n"+time[index[6]], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index[6]], width*0.82, height * 0.5);
+    
+    image(details, 0, height*0.72);
+    fill(255);
+    text(time[index[6]], width*0.01, height*0.75);
+    text("Number of People: "+data[index[6]], width*0.01, height * 0.78);
 
     delay(300);
     
@@ -743,8 +762,11 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     ellipse(st19_up_circle_x + 5, st19_up_circle_y + 10, 70, 70);
     
     drawCircle_st19(data[index[7]]);
-    wrteZoneName("Date/Time: \n"+time[index[7]], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index[7]], width*0.82, height * 0.5);
+    
+    image(details, 0, height*0.72);
+    fill(255);
+    text(time[index[7]], width*0.01, height*0.75);
+    text("Number of People: "+data[index[7]], width*0.01, height * 0.78);
 
     delay(300);
     
@@ -783,9 +805,11 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
     }
     
     drawCircle_st19(data[index[8]]);
-
-    wrteZoneName("Date/Time: \n"+time[index[8]], width*0.82, height*0.43);
-    wrteZoneName("Number of People: "+data[index[8]], width*0.82, height * 0.5);
+    
+    image(details, 0, height*0.72);
+    fill(255);
+    text(time[index[8]], width*0.01, height*0.75);
+    text("Number of People: "+data[index[8]], width*0.01, height * 0.78);
 
     delay(300);
     
@@ -926,6 +950,10 @@ void showAll() {
           //
           sum = (st18_up[index[0]] + st18_down[index[0]] + st19_up[index[0]] + st19_down[index[0]] 
                 + cr07_in[index[0]] + cr07_out[index[0]] + cr09_in[index[0]] + cr09_out[index[0]]) / 8;
+          
+          image(details, 0, height*0.72);
+          fill(255);
+          text("Number of People: " + sum * 8, width*0.01, height * 0.77);
           
           crowd.amp(sum*0.25);
           
