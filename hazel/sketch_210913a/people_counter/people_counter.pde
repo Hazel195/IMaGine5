@@ -275,6 +275,7 @@ void backend_setup() {
 }
 
 
+
 void backend_draw() {
   //draw the show all button
   stroke(255, 145, 43);
@@ -319,6 +320,8 @@ void backend_draw() {
   wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.9 + boxSize * 0.6);
 }
 
+
+
 //function to write string to the sketch
 void wrteZoneName(String zone, float xpos, float ypos) {
   if(!dark_mode) {
@@ -331,6 +334,8 @@ void wrteZoneName(String zone, float xpos, float ypos) {
   textSize(17);
   text(zone, xpos, ypos);
 }
+
+
 
 //load the csv files and save it to the arrays (people counting numbers data)
 int[] setupCsv(String fileName) {
@@ -346,6 +351,8 @@ int[] setupCsv(String fileName) {
   println(fileName + " Data Loaded: " + result.length + " entries.");
   return result;
 }
+
+
 
 //load the csv files and save it to the arrays (recorded time data)
 String[] setupCsvTime(String fileName) {
@@ -395,10 +402,10 @@ void drawCircle_cr07(int num) {
   //plays alert sount when people count exceeds 10
   if (num > 9) {
     alert.play();
-  }
-  
+  }  
 }
 
+ 
   
 //draw the circle in the zone CR09
 void drawCircle_cr09(int num) {
@@ -434,6 +441,8 @@ void drawCircle_cr09(int num) {
   }
 }
 
+
+
 //draw the circle in the zone ST18
 void drawCircle_st18(int num) {
   int colour = color(0);
@@ -467,6 +476,9 @@ void drawCircle_st18(int num) {
     alert.play();
   }
 }
+
+
+
 
 //draw the circle in the zone ST19
 void drawCircle_st19(int num) {
@@ -502,6 +514,9 @@ void drawCircle_st19(int num) {
   }
 }
   
+  
+  
+  
 //display description when info button is clicked
 void info() {
   if (info_click) {
@@ -509,12 +524,14 @@ void info() {
   }
 }
 
+
+
+//display circles in CR07 IN
 void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr07_in_click)) {
-    //wrteZoneName("CORRIDOR 07 IN", width*0.82, height*0.32);
     
         if(frameCount % int(3) == 0) {
         index[1]++;
@@ -522,7 +539,6 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
               index[1] = 0;
             }
         }
-    
 
     noFill();
     stroke(255);
@@ -535,9 +551,6 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     fill(255);
     text(time[index[1]], width*0.01, height*0.76);
     text("Number of People: "+data[index[1]], width*0.01, height * 0.79);
-
-    //graph = loadImage("AAPL2010V4_2.tif");
-    //image(graph, width * 0.8, height*0.55);
 
     delay(300);
     index[1]++;
@@ -566,15 +579,13 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
 }
 }
 
-
+//display circles in CR07 OUT
 void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)|| (cr07_out_click)) {
-    //index = 0;    
-    //wrteZoneName("CORRIDOR 07 OUT", width*0.825, height*0.32);
-    
+
         if(frameCount % int(3) == 0) {
         index[2]++;
         if (index[2] == data.length) {
@@ -595,9 +606,6 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     text(time[index[2]], width*0.01, height*0.76);
     text("Number of People: "+data[index[2]], width*0.01, height * 0.79);
 
-
-    //graph = loadImage("AAPL2010V4_2.tif");
-    //image(graph, width * 0.8, height*0.55);
     delay(300);
     
 
@@ -623,15 +631,14 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
 }
 }
 
+
+//display circles in CR09 IN
 void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr09_in_click)) {
-    
-    //index = 0;
-    //wrteZoneName("CORRIDOR 09 IN", width*0.835, height*0.32);
-    
+
     if(frameCount % int(3) == 0) {
         index[3]++;
         if (index[3] == data.length) {
@@ -729,6 +736,9 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
 }
 }
 
+
+
+//display circles in ST18 UP
 void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -780,14 +790,16 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
   }
 }
 }
+
+
+
+//display circles in ST18 DOWN
 void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st18_down_click)) {
-    //index = 0;
-    //wrteZoneName("STAIR 18 DOWN", width*0.835, height*0.32);
-    
+
     if(frameCount % int(3) == 0) {
         index[6]++;
         if (index[6] == data.length) {
@@ -832,6 +844,9 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
 }
 }
 
+
+
+//display circles in ST19 UP
 void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -883,6 +898,10 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
   }
 }
 }
+
+
+
+//display circles in ST19 DOWN
 void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -936,7 +955,9 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
   }
 }
 
-//check if hte zone is clicked
+
+
+//check if the zone is clicked
 void mouseClicked() {
   click.play();
   //cr07_in_x, cr07_in_y
@@ -1038,6 +1059,8 @@ void mouseClicked() {
   } 
   
 }
+
+
 
 
 //display all the people counter
