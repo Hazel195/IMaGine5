@@ -1,3 +1,16 @@
+
+/* [ MAIN FEATURES ]
+
+    1.   People count circles appears when hovering buttons
+    2.   When clickin each zone, it will be fixed to keep display the circles. Also has clicking sound effect.
+    3.   The background crowd sound changes depending on the population.
+         The volume increases when having many people, while it decreases when having less people.
+    4.   Alarming sound will be played when certain area exceeds the people count of 10.
+    5.   The Leap motion sensor can be connected and can be used exactly as a mouse pointer.
+    6.   Clicking the info button on the right side, the user can see the colour code of the circles
+    7.   User can turn on/off the dark mode.
+*/
+
 import de.voidplus.leapmotion.*;
 import processing.sound.*;
 
@@ -17,8 +30,10 @@ String cr07_in_time[], cr07_out_time[],
     st18_up_time[], st18_down_time[], 
     st19_up_time[], st19_down_time[];
 
+//check the index of each array
 int index[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
+//check whether each button is clicked
 boolean cr07_in_click = false;
 boolean cr07_out_click = false;
 boolean cr09_in_click = false;
@@ -30,9 +45,15 @@ boolean st19_down_click = false;
 boolean info_click = false;
 boolean all_clicked = false;
 boolean showAll = false;
+boolean dark_mode = false;
 
-PImage img, bg, graph, info, info_des, details;
+//image files
+PImage img, bg, bg_dark, 
+        info, info_des, 
+        details, 
+        dark, light;
 
+//sound files
 SoundFile click, bgm, crowd, alert;
 
 int boxSize = 9;
@@ -112,7 +133,12 @@ void setup() {
 
 void draw() { 
   background(255);
-  image(bg, 0, 0);
+  
+  if (!dark_mode) {
+    image(bg, 0, 0);
+  } else {
+    image(bg_dark, 0, 0);
+  }
   
   //generate the people counter circles
   display();
@@ -174,9 +200,12 @@ void backend_setup() {
   
   //loading image files
   bg = loadImage("bg1.png");
+  bg_dark = loadImage("bg_2.png");
   info = loadImage("info.png");
   info_des = loadImage("info_des.png");
-  details = loadImage("details.png");
+  details = loadImage("details_2.png");
+  dark = loadImage("dark.png");
+  light = loadImage("light.png");
   
   //name & box pos setup 
   cr07_in_x = width * 0.6;
@@ -246,10 +275,19 @@ void backend_setup() {
 }
 
 
+
 void backend_draw() {
   //draw the show all button
   stroke(255, 145, 43);
-  rect(width*0.1 , height*0.9, boxSize, boxSize);
+  rect(width*0.1 , height*0.895, boxSize, boxSize);
+  
+  //dark mode
+  //rect(width*0.1 , height*0.3, boxSize, boxSize);
+  if (!dark_mode) {
+    image(dark, width*0.05 , height*0.22);
+  } else {
+    image(light, width*0.05 , height*0.22);
+  }
   
   //draw the info button
   image(info, width*0.95, height*0.22);
@@ -282,13 +320,22 @@ void backend_draw() {
   wrteZoneName(" SHOW ALL", width*0.1 + boxSize * 1.5, height*0.9 + boxSize * 0.6);
 }
 
+
+
 //function to write string to the sketch
 void wrteZoneName(String zone, float xpos, float ypos) {
-  fill(120);
+  if(!dark_mode) {
+    fill(120);
+  } else {
+    fill(200);
+  }
+  
   textFont(font);
   textSize(17);
   text(zone, xpos, ypos);
 }
+
+
 
 //load the csv files and save it to the arrays (people counting numbers data)
 int[] setupCsv(String fileName) {
@@ -304,6 +351,8 @@ int[] setupCsv(String fileName) {
   println(fileName + " Data Loaded: " + result.length + " entries.");
   return result;
 }
+
+
 
 //load the csv files and save it to the arrays (recorded time data)
 String[] setupCsvTime(String fileName) {
@@ -327,6 +376,7 @@ void drawCircle_cr07(int num) {
   int colour = color(0);
   
   //colour code for each number range
+  //change the sound volume according to the population
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
     crowd.amp(0.1);
@@ -349,19 +399,20 @@ void drawCircle_cr07(int num) {
     }
   popMatrix();
   
-  //plays alert sount when people count exceeds 8
-  if (num > 8) {
+  //plays alert sount when people count exceeds 10
+  if (num > 9) {
     alert.play();
-  }
-  
+  }  
 }
 
+ 
   
 //draw the circle in the zone CR09
 void drawCircle_cr09(int num) {
   int colour = color(0);
   
   //colour code for each number range
+  //change the sound volume according to the population
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
     crowd.amp(0.1);
@@ -384,17 +435,20 @@ void drawCircle_cr09(int num) {
   }
   popMatrix();
   
-  //plays alert sount when people count exceeds 8
-  if (num > 8) {
+  //plays alert sount when people count exceeds 10
+  if (num > 9) {
     alert.play();
   }
 }
+
+
 
 //draw the circle in the zone ST18
 void drawCircle_st18(int num) {
   int colour = color(0);
   
   //colour code for each number range
+  //change the sound volume according to the population
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
     crowd.amp(0.1);
@@ -417,17 +471,21 @@ void drawCircle_st18(int num) {
   }
   popMatrix();
     
-  //plays alert sount when people count exceeds 8
-  if (num > 8) {
+  //plays alert sount when people count exceeds 10
+  if (num > 9) {
     alert.play();
   }
 }
+
+
+
 
 //draw the circle in the zone ST19
 void drawCircle_st19(int num) {
   int colour = color(0);
   
   //colour code for each number range
+  //change the sound volume according to the population
   if (num > 0 && 3 > num) {
     colour = color(142, 194, 85);
     crowd.amp(0.1);
@@ -451,10 +509,13 @@ void drawCircle_st19(int num) {
   popMatrix();
 
   //plays alert sount when people count exceeds 8
-  if (num > 8) {
+  if (num > 9) {
     alert.play();
   }
 }
+  
+  
+  
   
 //display description when info button is clicked
 void info() {
@@ -463,12 +524,14 @@ void info() {
   }
 }
 
+
+
+//display circles in CR07 IN
 void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr07_in_click)) {
-    //wrteZoneName("CORRIDOR 07 IN", width*0.82, height*0.32);
     
         if(frameCount % int(3) == 0) {
         index[1]++;
@@ -476,7 +539,6 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
               index[1] = 0;
             }
         }
-    
 
     noFill();
     stroke(255);
@@ -487,17 +549,19 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[1]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[1]], width*0.01, height * 0.78);
-
-    //graph = loadImage("AAPL2010V4_2.tif");
-    //image(graph, width * 0.8, height*0.55);
+    text(time[index[1]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[1]], width*0.01, height * 0.79);
 
     delay(300);
     index[1]++;
 
     if(!cr07_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" CORRIDOR 07 IN", cr07_in_x + boxSize * 1.5, cr07_in_y + boxSize * 0.6);
       stroke(59, 82, 255);
       fill(255, 236, 150);
@@ -511,18 +575,17 @@ void display_cr07_in(float xpos, float ypos, int[] data, String[] time) {
     //index1 = 0;
 
   }
+
+}
 }
 
-
-
+//display circles in CR07 OUT
 void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize)|| (cr07_out_click)) {
-    //index = 0;    
-    //wrteZoneName("CORRIDOR 07 OUT", width*0.825, height*0.32);
-    
+
         if(frameCount % int(3) == 0) {
         index[2]++;
         if (index[2] == data.length) {
@@ -540,17 +603,19 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[2]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[2]], width*0.01, height * 0.78);
+    text(time[index[2]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[2]], width*0.01, height * 0.79);
 
-
-    //graph = loadImage("AAPL2010V4_2.tif");
-    //image(graph, width * 0.8, height*0.55);
     delay(300);
     
 
     if(!cr07_out_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" CORRIDOR 07 OUT", cr07_out_x + boxSize * 1.5, cr07_out_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -564,16 +629,16 @@ void display_cr07_out(float xpos, float ypos, int[] data, String[] time) {
     //index2 = 0;
   }
 }
+}
 
+
+//display circles in CR09 IN
 void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (cr09_in_click)) {
-    
-    //index = 0;
-    //wrteZoneName("CORRIDOR 09 IN", width*0.835, height*0.32);
-    
+
     if(frameCount % int(3) == 0) {
         index[3]++;
         if (index[3] == data.length) {
@@ -591,14 +656,19 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[3]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[3]], width*0.01, height * 0.78);
+    text(time[index[3]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[3]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!cr09_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" CORRIDOR 09 IN", cr09_in_x + boxSize * 1.5, cr09_in_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -610,6 +680,7 @@ void display_cr09_in(float xpos, float ypos, int[] data, String[] time) {
     noFill();
     //index = 0;
   }
+}
 }
 
 void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
@@ -637,14 +708,19 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[4]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[4]], width*0.01, height * 0.78);
+    text(time[index[4]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[4]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!cr09_out_overBox) {
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" CORRIDOR 09 OUT", cr09_out_x + boxSize * 1.5, cr09_out_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -658,7 +734,11 @@ void display_cr09_out(float xpos, float ypos, int[] data, String[] time) {
     //index4 = 0;
   }
 }
+}
 
+
+
+//display circles in ST18 UP
 void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -684,14 +764,19 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[5]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[5]], width*0.01, height * 0.78);
+    text(time[index[5]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[5]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!st18_up_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" STAIR 18 UP", st18_up_x + boxSize * 1.5, st18_up_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -704,15 +789,17 @@ void display_st18_up(float xpos, float ypos, int[] data, String[] time) {
     index[5] = 0;
   }
 }
+}
 
+
+
+//display circles in ST18 DOWN
 void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
         ||(mouseX > xpos-boxSize && mouseX < xpos+boxSize && 
       mouseY > ypos-boxSize && mouseY < ypos+boxSize) || (st18_down_click)) {
-    //index = 0;
-    //wrteZoneName("STAIR 18 DOWN", width*0.835, height*0.32);
-    
+
     if(frameCount % int(3) == 0) {
         index[6]++;
         if (index[6] == data.length) {
@@ -730,14 +817,19 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[6]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[6]], width*0.01, height * 0.78);
+    text(time[index[6]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[6]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!st18_down_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" STAIR 18 DOWN", st18_down_x + boxSize * 1.5, st18_down_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -750,7 +842,11 @@ void display_st18_down(float xpos, float ypos, int[] data, String[] time) {
     //index6 = 0;
   }
 }
+}
 
+
+
+//display circles in ST19 UP
 void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -776,14 +872,19 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[7]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[7]], width*0.01, height * 0.78);
+    text(time[index[7]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[7]], width*0.01, height * 0.79);
 
     delay(300);
     
 
     if(!st19_up_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
       text(" STAIR 19 UP", st19_up_x + boxSize * 1.5, st19_up_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -796,7 +897,11 @@ void display_st19_up(float xpos, float ypos, int[] data, String[] time) {
     //index7 = 0;
   }
 }
+}
 
+
+
+//display circles in ST19 DOWN
 void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
   if ((fingerPos.x > xpos-boxSize && fingerPos.x < xpos+boxSize && 
         fingerPos.y > ypos-boxSize && fingerPos.y < ypos+boxSize) 
@@ -821,14 +926,18 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
     
     image(details, 0, height*0.72);
     fill(255);
-    text(time[index[8]], width*0.01, height*0.75);
-    text("Number of People: "+data[index[8]], width*0.01, height * 0.78);
+    text(time[index[8]], width*0.01, height*0.76);
+    text("Number of People: "+data[index[8]], width*0.01, height * 0.79);
 
-    delay(300);
-    
+    delay(300); 
 
-    if(!st19_down_overBox) { 
-      fill(0);
+      if(!st19_down_overBox) { 
+        if(!dark_mode) {
+          fill(0);
+        } else {
+          fill(255);
+      }
+
       text(" STAIR 19 DOWN", st19_down_x + boxSize * 1.5, st19_down_y + boxSize * 0.6);
       stroke(255); 
       fill(255, 236, 150);
@@ -846,6 +955,9 @@ void display_st19_down(float xpos, float ypos, int[] data, String[] time) {
   }
 }
 
+
+
+//check if the zone is clicked
 void mouseClicked() {
   click.play();
   //cr07_in_x, cr07_in_y
@@ -929,12 +1041,20 @@ void mouseClicked() {
         info_click = false;
       }
   } else if (mouseX > width*0.1-boxSize && mouseX < width*0.1+boxSize && 
-      mouseY > height*0.9-boxSize && mouseY < height*0.9+boxSize) {
+      mouseY > height*0.895-boxSize && mouseY < height*0.895+boxSize) {
       if (!all_clicked) {
         all_clicked = true;
         
       } else {
         all_clicked = false;
+      }
+  } else if (mouseX > width*0.05-70 && mouseX < width*0.05+70 && 
+      mouseY > height*0.22-21 && mouseY < height*0.22+21) {
+      if (!dark_mode) {
+        dark_mode = true;
+        
+      } else {
+        dark_mode = false;
       }
   } 
   
@@ -942,15 +1062,17 @@ void mouseClicked() {
 
 
 
+
+//display all the people counter
 void showAll() {
   if (index[0] > 100) {
              index[0] = 0;
            }
   if ((mouseX > width*0.1-boxSize && mouseX < width*0.1+boxSize && 
-      mouseY > height*0.9-boxSize && mouseY < height*0.9+boxSize) || (all_clicked)) {
+      mouseY > height*0.895-boxSize && mouseY < height*0.895+boxSize) || (all_clicked)) {
         fill(255, 236, 150); //<- yellow
       
-        rect(width*0.1, height*0.9, boxSize, boxSize);
+        rect(width*0.1, height*0.895, boxSize, boxSize);
         
          drawCircle_st18(st18_up[index[0]]);
          drawCircle_st18(st18_down[index[0]]);
@@ -962,7 +1084,6 @@ void showAll() {
          drawCircle_cr09(cr09_out[index[0]]);
 
           int sum = 0;
-          //
           sum = (st18_up[index[0]] + st18_down[index[0]] + st19_up[index[0]] + st19_down[index[0]] 
                 + cr07_in[index[0]] + cr07_out[index[0]] + cr09_in[index[0]] + cr09_out[index[0]]) / 8;
           
@@ -970,6 +1091,7 @@ void showAll() {
           fill(255);
           text("Number of People: " + sum * 8, width*0.01, height * 0.77);
           
+          //change the sound volume according to the population
           crowd.amp(sum*0.25);
           
          noFill();
